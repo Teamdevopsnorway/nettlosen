@@ -18,6 +18,18 @@
       -webkit-text-size-adjust:100%;
     }
 
+    /* ── No-JS / Safari banner ── */
+    #safariPrompt{
+      background:#1a0800; border:2px solid var(--accent);
+      border-radius:var(--r); padding:22px 18px;
+      text-align:center; margin-bottom:20px;
+    }
+    #safariPrompt h2{font-size:18px;font-weight:900;color:var(--accent);margin-bottom:10px;}
+    #safariPrompt p{font-size:14px;line-height:1.6;color:#ddd;margin-bottom:14px;}
+    #safariPrompt .steps{text-align:left;font-size:14px;line-height:2;color:#ddd;margin-bottom:14px;padding-left:8px;}
+    #safariPrompt .steps b{color:var(--accent);}
+    #safariPrompt .arrow{font-size:40px;display:block;margin-bottom:4px;}
+
     /* ── Header ── */
     .brand{text-align:center;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
     h1{text-align:center;font-size:clamp(22px,6vw,38px);font-weight:900;margin-bottom:20px;}
@@ -152,6 +164,18 @@
 </head>
 <body>
 
+<!-- Visible when JS is blocked (Quick Look). Hidden immediately when JS runs. -->
+<div id="safariPrompt">
+  <span class="arrow">⬆️</span>
+  <h2>Tap the share icon above, then "Open in Safari"</h2>
+  <p>This app requires Safari to work.<br>You are currently in <strong>Quick Look</strong> which blocks the app's code.</p>
+  <div class="steps">
+    <b>1.</b> Tap <b>⬆ Share</b> (top right corner)<br>
+    <b>2.</b> Scroll down and tap <b>"Open in Safari"</b><br>
+    <b>3.</b> Your powerlist loads and saves progress automatically
+  </div>
+</div>
+
 <div class="brand">Walter Cobb</div>
 <h1>100 Day Powerlist</h1>
 
@@ -196,6 +220,9 @@
 <p class="tip">Open in Safari to save progress between sessions.</p>
 
 <script>
+// Hide the "Open in Safari" banner — JS is running fine
+(function(){ var b=document.getElementById('safariPrompt'); if(b) b.style.display='none'; })();
+
 // ── Safe storage ────────────────────────────────────────────────────────────
 var _mem = {};
 var _lsOk = false;
