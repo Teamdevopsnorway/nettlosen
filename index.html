@@ -1,254 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
   <title>100 Day Powerlist — Walter Cobb</title>
   <style>
     :root {
-      --bg: #0d0d0d;
-      --card: #161616;
-      --border: #2a2a2a;
-      --accent: #f5a623;
-      --accent2: #e8451a;
-      --green: #22c55e;
-      --text: #f0f0f0;
-      --muted: #888;
-      --radius: 12px;
+      --bg:#0d0d0d; --card:#1a1a1a; --border:#2e2e2e;
+      --accent:#f5a623; --red:#e8451a; --green:#22c55e;
+      --text:#f0f0f0; --muted:#777; --r:14px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
-      min-height: 100vh;
-      padding: 24px 16px 80px;
-      -webkit-text-size-adjust: 100%;
-    }
-    header { text-align: center; margin-bottom: 28px; }
-    .brand { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
-    h1 { font-size: clamp(24px, 6vw, 40px); font-weight: 800; line-height: 1.1; }
-
-    /* Goal banner */
-    .goal-banner {
-      background: linear-gradient(135deg, #1a1000 0%, #1a0800 100%);
-      border: 1px solid var(--accent);
-      border-radius: var(--radius);
-      padding: 18px 20px;
-      margin: 0 auto 20px;
-      max-width: 640px;
-      text-align: center;
-    }
-    .goal-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
-    .goal-text { font-size: 19px; font-weight: 700; }
-
-    /* Quote of day */
-    .quote-box {
-      background: #130000;
-      border: 1px solid var(--accent2);
-      border-left: 4px solid var(--accent2);
-      border-radius: var(--radius);
-      padding: 16px 18px;
-      margin: 0 auto 22px;
-      max-width: 640px;
-    }
-    .q-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2); margin-bottom: 8px; }
-    .q-text { font-size: clamp(14px, 3.5vw, 17px); font-weight: 700; font-style: italic; line-height: 1.45; color: #f5f5f5; }
-    .q-date { font-size: 11px; color: var(--muted); margin-top: 8px; }
-
-    /* Stats */
-    .stats-section { max-width: 640px; margin: 0 auto 24px; }
-    .stats-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
-    .stats-label { font-size: 13px; color: var(--muted); }
-    .stats-count { font-size: 26px; font-weight: 800; color: var(--accent); }
-    .stats-sub { font-size: 12px; color: var(--muted); }
-    .progress-bar { height: 7px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 99px; transition: width 0.4s; }
-    .pill-row { display: flex; gap: 10px; }
-    .pill { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
-    .pill .val { font-size: 20px; font-weight: 800; color: var(--accent); }
-    .pill .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-
-    /* Day grid */
-    .days-grid { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-
-    .day-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .day-card.is-today { border-color: var(--accent); }
-    .day-card.is-perfect { border-color: var(--green); }
-    .day-card.is-future { opacity: 0.35; pointer-events: none; }
-
-    .day-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 14px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-    .day-num { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); min-width: 44px; }
-    .day-title { flex: 1; font-size: 14px; font-weight: 600; }
-    .today-pill { display: inline-block; font-size: 10px; background: var(--accent); color: #000; padding: 2px 7px; border-radius: 4px; margin-left: 6px; font-weight: 800; letter-spacing: 1px; }
-    .day-badge { font-size: 11px; padding: 3px 9px; border-radius: 99px; font-weight: 700; white-space: nowrap; }
-    .b-perfect { background: #14532d; color: var(--green); }
-    .b-partial  { background: #2c1a00; color: var(--accent); }
-    .b-missed   { background: #2a0a0a; color: #ef4444; }
-    .b-today    { background: #1a0d00; color: var(--accent); border: 1px solid var(--accent); }
-    .b-future   { background: var(--border); color: var(--muted); }
-    .chevron { font-size: 11px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
-    .day-card.open .chevron { transform: rotate(180deg); }
-
-    /* Tasks */
-    .tasks-wrap { display: none; border-top: 1px solid var(--border); padding: 0 14px 14px; }
-    .day-card.open .tasks-wrap { display: block; }
-
-    .day-quote-strip {
-      margin: 12px 0 8px;
-      padding: 10px 12px;
-      background: #100000;
-      border-left: 3px solid var(--accent2);
-      border-radius: 6px;
-    }
-    .day-quote-strip p { font-size: 12px; font-style: italic; color: #bbb; line-height: 1.4; }
-
-    .task-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .task-row:last-child { border-bottom: none; }
-    .task-icon { font-size: 18px; flex-shrink: 0; }
-    .task-body { flex: 1; }
-    .task-name { font-size: 14px; font-weight: 600; }
-    .task-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .task-row.done .task-name { text-decoration: line-through; color: var(--muted); }
-
-    /* THE CHECK BUTTON */
-    .check-btn {
-      flex-shrink: 0;
-      min-width: 80px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 2px solid #555;
-      background: #252525;
-      color: #ddd;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      text-align: center;
-      -webkit-tap-highlight-color: transparent;
-      transition: all 0.15s;
-      touch-action: manipulation;
-    }
-    .check-btn:active { transform: scale(0.95); }
-    .task-row.done .check-btn {
-      background: var(--green);
-      border-color: var(--green);
-      color: #000;
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:var(--bg); color:var(--text);
+      font-family:-apple-system,'Segoe UI',sans-serif;
+      padding:20px 14px 80px;
+      -webkit-text-size-adjust:100%;
     }
 
-    /* Win message */
-    .win-msg { display: none; text-align: center; padding: 12px; font-size: 15px; font-weight: 800; color: var(--green); }
+    /* ── Header ── */
+    .brand{text-align:center;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+    h1{text-align:center;font-size:clamp(22px,6vw,38px);font-weight:900;margin-bottom:20px;}
 
-    /* Reset */
-    .reset-btn {
-      display: block;
-      margin: 36px auto 0;
-      background: none;
-      border: 1px solid #333;
-      color: var(--muted);
-      padding: 9px 22px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: all 0.15s;
-      touch-action: manipulation;
+    /* ── Goal ── */
+    .goal{
+      background:linear-gradient(135deg,#1a1000,#160800);
+      border:1px solid var(--accent); border-radius:var(--r);
+      padding:16px 18px; text-align:center; margin-bottom:16px;
     }
-    .reset-btn:hover, .reset-btn:active { border-color: #ef4444; color: #ef4444; }
+    .goal small{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);}
+    .goal strong{display:block;font-size:18px;font-weight:800;margin-top:4px;}
 
-    .safari-tip {
-      max-width: 640px;
-      margin: 16px auto 0;
-      text-align: center;
-      font-size: 11px;
-      color: #555;
+    /* ── Quote ── */
+    .quote{
+      background:#110000; border-left:4px solid var(--red);
+      border-radius:var(--r); padding:14px 16px; margin-bottom:20px;
     }
+    .quote .day-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+    .quote .txt{font-size:clamp(13px,3.5vw,16px);font-style:italic;font-weight:700;line-height:1.5;color:#eee;}
+
+    /* ── Stats ── */
+    .stats{margin-bottom:20px;}
+    .bar-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:8px;}
+    .bar-row strong{font-size:22px;font-weight:900;color:var(--accent);}
+    .bar{height:6px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:12px;}
+    .bar-fill{height:100%;background:linear-gradient(90deg,var(--red),var(--accent));border-radius:99px;transition:width .4s;}
+    .pills{display:flex;gap:8px;}
+    .pill{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center;}
+    .pill .v{font-size:20px;font-weight:900;color:var(--accent);}
+    .pill .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+
+    /* ── Today section ── */
+    .section-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+
+    .today-card{
+      background:var(--card); border:2px solid var(--accent);
+      border-radius:var(--r); overflow:hidden; margin-bottom:20px;
+    }
+    .today-card-hdr{
+      background:linear-gradient(135deg,#201000,#180800);
+      padding:12px 16px; display:flex; justify-content:space-between; align-items:center;
+    }
+    .today-card-hdr .date{font-size:14px;font-weight:700;}
+    .today-card-hdr .badge{font-size:11px;font-weight:800;color:#000;background:var(--accent);padding:3px 10px;border-radius:99px;}
+
+    .win-banner{
+      display:none; background:#052e16; border-bottom:1px solid var(--green);
+      padding:10px 16px; text-align:center;
+      font-size:14px; font-weight:800; color:var(--green);
+    }
+
+    /* ── Task row ── */
+    .task{
+      display:flex; align-items:center; gap:10px;
+      padding:14px 16px; border-bottom:1px solid var(--border);
+    }
+    .task:last-child{border-bottom:none;}
+    .task .ico{font-size:22px;flex-shrink:0;}
+    .task .info{flex:1;}
+    .task .name{font-size:14px;font-weight:700;}
+    .task .desc{font-size:11px;color:var(--muted);margin-top:2px;}
+    .task.done .name{text-decoration:line-through;color:var(--muted);}
+
+    .chk{
+      flex-shrink:0; min-width:90px; padding:11px 16px;
+      background:#252525; border:2px solid #555;
+      border-radius:10px; color:#ccc;
+      font-size:14px; font-weight:900;
+      cursor:pointer; text-align:center;
+      -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+      transition:all .15s;
+    }
+    .chk:active{transform:scale(0.93);}
+    .task.done .chk{background:var(--green);border-color:var(--green);color:#000;}
+
+    /* ── History ── */
+    .history-toggle{
+      width:100%; padding:12px 16px;
+      background:var(--card); border:1px solid var(--border);
+      border-radius:var(--r); color:var(--muted);
+      font-size:13px; font-weight:700; cursor:pointer;
+      text-align:left; margin-bottom:10px;
+      -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+    }
+    .history-list{display:none;flex-direction:column;gap:8px;margin-bottom:20px;}
+    .history-list.open{display:flex;}
+
+    .hist-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+    .hist-card.perf{border-color:var(--green);}
+    .hist-hdr{
+      display:flex; align-items:center; gap:10px;
+      padding:11px 14px; cursor:pointer;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .hist-hdr .dn{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);min-width:42px;}
+    .hist-hdr .dt{flex:1;font-size:14px;font-weight:600;}
+    .hist-hdr .hbadge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;}
+    .hb-perf{background:#14532d;color:var(--green);}
+    .hb-part{background:#2c1a00;color:var(--accent);}
+    .hb-miss{background:#2a0a0a;color:#ef4444;}
+    .hist-tasks{display:none;border-top:1px solid var(--border);padding:10px 14px;}
+    .hist-card.open .hist-tasks{display:block;}
+    .hist-task-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
+    .hist-task-row:last-child{border-bottom:none;}
+    .hist-task-row .ico{font-size:16px;flex-shrink:0;}
+    .hist-task-row .nm{flex:1;font-size:13px;font-weight:600;}
+    .hist-task-row.done .nm{text-decoration:line-through;color:var(--muted);}
+    .hist-chk{
+      flex-shrink:0; min-width:80px; padding:8px 12px;
+      background:#252525; border:2px solid #555;
+      border-radius:8px; color:#ccc;
+      font-size:12px; font-weight:800;
+      cursor:pointer; text-align:center;
+      -webkit-tap-highlight-color:transparent;
+      touch-action:manipulation;
+    }
+    .hist-task-row.done .hist-chk{background:var(--green);border-color:var(--green);color:#000;}
+
+    /* ── Reset ── */
+    .reset{
+      display:block; margin:30px auto 0;
+      background:none; border:1px solid #333; color:var(--muted);
+      padding:9px 22px; border-radius:8px; cursor:pointer;
+      font-size:13px; touch-action:manipulation;
+    }
+    .reset:active{border-color:#ef4444;color:#ef4444;}
+    .tip{text-align:center;font-size:11px;color:#444;margin-top:10px;}
   </style>
 </head>
 <body>
 
-<header>
-  <div class="brand">Walter Cobb</div>
-  <h1>100 Day Powerlist</h1>
-</header>
+<div class="brand">Walter Cobb</div>
+<h1>100 Day Powerlist</h1>
 
-<div class="goal-banner">
-  <div class="goal-label">Main Goal</div>
-  <div class="goal-text">Buy a House &amp; Provide for My Family</div>
+<div class="goal">
+  <small>Main Goal</small>
+  <strong>Buy a House &amp; Provide for My Family</strong>
 </div>
 
-<div class="quote-box" id="quoteBox">
-  <div class="q-label">🔥 Day <span id="qDayNum">1</span> — Truth of the Day</div>
-  <div class="q-text" id="qText">Loading...</div>
-  <div class="q-date" id="qDate"></div>
+<div class="quote" id="quoteBox">
+  <div class="day-lbl">🔥 Day <span id="qDay">1</span> — Truth of the Day</div>
+  <div class="txt" id="qTxt">Loading…</div>
 </div>
 
-<div class="stats-section">
-  <div class="stats-header">
-    <span class="stats-label">Overall Progress</span>
-    <span>
-      <span class="stats-count" id="daysCompleted">0</span>
-      <span class="stats-sub"> / 100 perfect days</span>
-    </span>
+<div class="stats">
+  <div class="bar-row">
+    <span>Overall Progress</span>
+    <span><strong id="sPerfect">0</strong> / 100 perfect days</span>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  <div class="pill-row">
-    <div class="pill"><div class="val" id="streakVal">0</div><div class="lbl">Streak</div></div>
-    <div class="pill"><div class="val" id="bestStreakVal">0</div><div class="lbl">Best</div></div>
-    <div class="pill"><div class="val" id="todayCount">0/4</div><div class="lbl">Today</div></div>
+  <div class="bar"><div class="bar-fill" id="sBar" style="width:0%"></div></div>
+  <div class="pills">
+    <div class="pill"><div class="v" id="sStreak">0</div><div class="l">Streak</div></div>
+    <div class="pill"><div class="v" id="sBest">0</div><div class="l">Best</div></div>
+    <div class="pill"><div class="v" id="sToday">0/4</div><div class="l">Today</div></div>
   </div>
 </div>
 
-<div class="win-msg" id="winMsg">All 4 done today. Let's go! 🔥</div>
-<div class="days-grid" id="daysGrid"></div>
+<p class="section-title">Today's Powerlist</p>
 
-<button class="reset-btn" id="resetBtn">Reset All Progress</button>
-<p class="safari-tip">Tip: Open in Safari to save progress between sessions.</p>
+<div class="today-card" id="todayCard">
+  <div class="today-card-hdr">
+    <span class="date" id="todayDate">—</span>
+    <span class="badge" id="todayBadge">0/4 done</span>
+  </div>
+  <div class="win-banner" id="winBanner">All 4 done today. Let's go! 🔥</div>
+  <div id="todayTasks"></div>
+</div>
+
+<button class="history-toggle" id="histToggle" onclick="toggleHistory()">📅 Show Past Days ▼</button>
+<div class="history-list" id="histList"></div>
+
+<button class="reset" onclick="doReset()">Reset All Progress</button>
+<p class="tip">Open in Safari to save progress between sessions.</p>
 
 <script>
-// ── Safe storage (works even when localStorage is blocked) ────────────────
-const store = (() => {
-  const mem = {};
-  let ok = false;
-  try { localStorage.setItem('__t', '1'); localStorage.removeItem('__t'); ok = true; } catch (_) {}
-  return {
-    get(k)    { try { return ok ? localStorage.getItem(k) : (mem[k] ?? null); } catch(_) { return mem[k] ?? null; } },
-    set(k, v) { try { if (ok) localStorage.setItem(k, v); else mem[k] = v; } catch(_) { mem[k] = v; } },
-    del(k)    { try { if (ok) localStorage.removeItem(k); else delete mem[k]; } catch(_) { delete mem[k]; } }
-  };
-})();
+// ── Safe storage ────────────────────────────────────────────────────────────
+var _mem = {};
+var _lsOk = false;
+try { localStorage.setItem('__x','1'); localStorage.removeItem('__x'); _lsOk = true; } catch(e){}
+var store = {
+  get: function(k){ try{ return _lsOk ? localStorage.getItem(k) : (_mem[k]||null); }catch(e){ return _mem[k]||null; } },
+  set: function(k,v){ try{ if(_lsOk) localStorage.setItem(k,v); else _mem[k]=v; }catch(e){ _mem[k]=v; } },
+  del: function(k){ try{ if(_lsOk) localStorage.removeItem(k); else delete _mem[k]; }catch(e){ delete _mem[k]; } }
+};
 
-// ── Constants ──────────────────────────────────────────────────────────────
-const STORE_STATE = 'pl_state_v2';
-const STORE_START = 'pl_start_v2';
-const TOTAL = 100;
+// ── Config ──────────────────────────────────────────────────────────────────
+var SK = 'pl3_state', SD = 'pl3_start', TOTAL = 100;
 
-const TASKS = [
-  { id: 'video', icon: '🎬', name: 'Post 1 Video on Walter Cobb', desc: 'Run through TJR prompt validation first' },
-  { id: 'train', icon: '💪', name: 'Train 45 Minutes',            desc: 'No excuses — 45 min minimum' },
-  { id: 'read',  icon: '📖', name: 'Read 10 Pages',               desc: 'Financial book — knowledge builds wealth' },
-  { id: 'sleep', icon: '🌙', name: 'Bed 21:00 — Up 05:00',        desc: 'Protect your energy. 8 hours every night' }
+var TASKS = [
+  { id:'video', ico:'🎬', name:'Post 1 Video on Walter Cobb',  desc:'Run through TJR prompt validation first' },
+  { id:'train', ico:'💪', name:'Train 45 Minutes',              desc:'No excuses — 45 min minimum' },
+  { id:'read',  ico:'📖', name:'Read 10 Pages',                 desc:'Financial book — knowledge builds wealth' },
+  { id:'sleep', ico:'🌙', name:'Bed 21:00 — Up 05:00',          desc:'Protect your energy. 8 hours every night' }
 ];
 
-const QUOTES = [
+var QUOTES = [
   "Nobody is coming to save you. Get up and save yourself.",
   "Your family deserves better than your best excuse.",
   "The house won't buy itself while you scroll through someone else's life.",
@@ -287,7 +255,7 @@ const QUOTES = [
   "Hard work is not enough — consistent hard work is.",
   "Another man is grinding the same hours you are wasting.",
   "The best investment is in yourself. Are you making it today?",
-  "You don't rise to the level of your goals. You fall to the level of your systems.",
+  "You don't rise to your goals. You fall to your systems.",
   "Your bed is not your enemy. Your lack of purpose is.",
   "Every page of a financial book is a brick in the wall your kids will shelter behind.",
   "You said this was important. Your calendar says otherwise.",
@@ -303,14 +271,14 @@ const QUOTES = [
   "You want the house? Then act like the person who owns it already.",
   "Your habits are louder than your ambitions.",
   "Skipping today doesn't delete the goal. It delays it — and delays cost money.",
-  "Nobody wakes up at 05:00 because they feel like it. They wake up because they decided to.",
+  "Nobody wakes up at 05:00 because they feel like it. They decide to.",
   "The content you don't create today is income you'll never see.",
   "You are the only obstacle between your family and stability.",
   "Being tired is temporary. Being broke is optional.",
   "Accountability starts in the dark, alone, when no one is watching.",
   "You don't build a legacy by feeling ready. You build it by starting scared.",
   "The 45 minutes you skip will be the 45 minutes you regret in 10 years.",
-  "Financial freedom is not found — it's built, page by page, rep by rep, day by day.",
+  "Financial freedom is built, page by page, rep by rep, day by day.",
   "Your future is being decided by what you do in the next hour.",
   "Consistency is boring on purpose. Boring things work.",
   "The man who stops posting stops growing. Full stop.",
@@ -331,9 +299,9 @@ const QUOTES = [
   "Stop imagining the house. Start earning it, one task at a time.",
   "The man with no discipline will always work for the man who has it.",
   "You don't need motivation. You need non-negotiables.",
-  "Day 84. If it were easy, everyone would do it. It's not. Do it anyway.",
+  "Day 84. If it were easy everyone would do it. It's not. Do it anyway.",
   "The gap between where you are and where you want to be is filled with reps.",
-  "You are building something real. Treat every day like a brick you can't afford to waste.",
+  "You are building something real. Don't waste a brick today.",
   "Comfort is the rent you pay to stay average.",
   "The people who own their home didn't wait until they felt ready.",
   "Hard days reveal your character. Easy days waste it.",
@@ -350,206 +318,160 @@ const QUOTES = [
   "Day 100. You did it. Now prove it wasn't a phase — start Day 1 again."
 ];
 
-// ── Date helpers (timezone-safe) ───────────────────────────────────────────
-function todayStr() {
-  const d = new Date();
-  return d.getFullYear() + '-' +
-    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0');
+// ── Date helpers ────────────────────────────────────────────────────────────
+function today(){
+  var d=new Date();
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+}
+function pad(n){ return n<10?'0'+n:''+n; }
+function dateMs(s){ var p=s.split('-'); return Date.UTC(+p[0],+p[1]-1,+p[2]); }
+function addDays(s,n){
+  var d=new Date(dateMs(s)+n*86400000);
+  return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate());
+}
+function diffDays(a,b){ return Math.round((dateMs(b)-dateMs(a))/86400000); }
+function fmtDate(s){
+  var p=s.split('-');
+  return new Date(Date.UTC(+p[0],+p[1]-1,+p[2]))
+    .toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});
 }
 
-function msForDate(s) {
-  const [y, m, d] = s.split('-').map(Number);
-  return Date.UTC(y, m - 1, d);
+// ── State ───────────────────────────────────────────────────────────────────
+function getStart(){
+  var d=store.get(SD); if(!d){ d=today(); store.set(SD,d); } return d;
 }
+function loadState(){ try{ return JSON.parse(store.get(SK))||{}; }catch(e){ return {}; } }
+function saveState(s){ try{ store.set(SK,JSON.stringify(s)); }catch(e){} }
+function isPerfect(d){ return d && TASKS.every(function(t){ return d[t.id]; }); }
+function doneCount(d){ if(!d) return 0; return TASKS.filter(function(t){ return d[t.id]; }).length; }
 
-function daysBetween(a, b) {
-  return Math.round((msForDate(b) - msForDate(a)) / 86400000);
-}
-
-function addDays(dateStr, n) {
-  const ms = msForDate(dateStr) + n * 86400000;
-  const d = new Date(ms);
-  return d.getUTCFullYear() + '-' +
-    String(d.getUTCMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getUTCDate()).padStart(2, '0');
-}
-
-function fmtDate(s) {
-  const [y, m, d] = s.split('-').map(Number);
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-GB', {
-    weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC'
-  });
-}
-
-// ── State ──────────────────────────────────────────────────────────────────
-function getStartDate() {
-  let d = store.get(STORE_START);
-  if (!d) { d = todayStr(); store.set(STORE_START, d); }
-  return d;
-}
-
-function loadState() {
-  try { return JSON.parse(store.get(STORE_STATE)) || {}; } catch(_) { return {}; }
-}
-
-function saveState(s) {
-  try { store.set(STORE_STATE, JSON.stringify(s)); } catch(_) {}
-}
-
-function isPerfect(d) { return d && TASKS.every(t => d[t.id]); }
-function doneCount(d) { return d ? TASKS.filter(t => d[t.id]).length : 0; }
-
-// ── Toggle task ────────────────────────────────────────────────────────────
-function toggleTask(dateStr, taskId) {
-  const state = loadState();
-  if (!state[dateStr]) state[dateStr] = {};
-  state[dateStr][taskId] = !state[dateStr][taskId];
+// ── Toggle ──────────────────────────────────────────────────────────────────
+function toggleTask(dateStr, taskId){
+  var state=loadState();
+  if(!state[dateStr]) state[dateStr]={};
+  state[dateStr][taskId]=!state[dateStr][taskId];
   saveState(state);
   render();
 }
 
-function toggleCard(el) {
-  el.closest('.day-card').classList.toggle('open');
+// ── History toggle ──────────────────────────────────────────────────────────
+function toggleHistory(){
+  var list=document.getElementById('histList');
+  var btn=document.getElementById('histToggle');
+  if(list.classList.contains('open')){
+    list.classList.remove('open');
+    btn.textContent='📅 Show Past Days ▼';
+  } else {
+    list.classList.add('open');
+    btn.textContent='📅 Hide Past Days ▲';
+  }
 }
 
-// ── Render ─────────────────────────────────────────────────────────────────
-function render() {
-  const state    = loadState();
-  const start    = getStartDate();
-  const today    = todayStr();
-  const todayIdx = Math.min(Math.max(daysBetween(start, today), 0), TOTAL - 1);
+// ── Render ──────────────────────────────────────────────────────────────────
+function render(){
+  var state = loadState();
+  var start = getStart();
+  var td    = today();
+  var idx   = Math.max(0, Math.min(diffDays(start, td), TOTAL-1));
 
   // Quote
-  const q = QUOTES[Math.min(todayIdx, QUOTES.length - 1)];
-  document.getElementById('qDayNum').textContent = todayIdx + 1;
-  document.getElementById('qText').textContent   = '“' + q + '”';
-  document.getElementById('qDate').textContent   = fmtDate(today);
+  var q = QUOTES[Math.min(idx, QUOTES.length-1)];
+  document.getElementById('qDay').textContent = idx+1;
+  document.getElementById('qTxt').textContent = '“'+q+'”';
 
   // Stats
-  let perfect = 0, cur = 0, best = 0;
-  for (let i = 0; i <= todayIdx; i++) {
-    const p = isPerfect(state[addDays(start, i)]);
-    if (p) { perfect++; cur++; if (cur > best) best = cur; } else { cur = 0; }
+  var perfect=0, cur=0, best=0;
+  for(var i=0;i<=idx;i++){
+    var p=isPerfect(state[addDays(start,i)]);
+    if(p){ perfect++; cur++; if(cur>best) best=cur; } else { cur=0; }
   }
-  // streak = current run ending yesterday if today not yet perfect
-  const todayDone = doneCount(state[today]);
-  if (!isPerfect(state[today])) { let s = 0; for (let i = 0; i < todayIdx; i++) { s = isPerfect(state[addDays(start, i)]) ? s + 1 : 0; } cur = s; }
+  var todayDone=doneCount(state[td]);
+  if(!isPerfect(state[td])){ var s=0; for(var i=0;i<idx;i++){ s=isPerfect(state[addDays(start,i)])?s+1:0; } cur=s; }
 
-  document.getElementById('daysCompleted').textContent  = perfect;
-  document.getElementById('progressFill').style.width   = perfect + '%';
-  document.getElementById('streakVal').textContent      = cur;
-  document.getElementById('bestStreakVal').textContent  = best;
-  document.getElementById('todayCount').textContent     = todayDone + '/4';
+  document.getElementById('sPerfect').textContent = perfect;
+  document.getElementById('sBar').style.width     = perfect+'%';
+  document.getElementById('sStreak').textContent  = cur;
+  document.getElementById('sBest').textContent    = best;
+  document.getElementById('sToday').textContent   = todayDone+'/4';
 
-  const winMsg = document.getElementById('winMsg');
-  winMsg.style.display = todayDone === 4 ? 'block' : 'none';
+  // Today card
+  document.getElementById('todayDate').textContent  = 'Day '+(idx+1)+' — '+fmtDate(td);
+  document.getElementById('todayBadge').textContent = todayDone===4?'🔥 Perfect!':todayDone+'/4 done';
+  document.getElementById('winBanner').style.display = todayDone===4?'block':'none';
 
-  // Cards
-  const grid = document.getElementById('daysGrid');
-  const openSet = new Set([...grid.querySelectorAll('.day-card.open')].map(c => c.dataset.idx));
-  grid.innerHTML = '';
+  var tasksCont = document.getElementById('todayTasks');
+  tasksCont.innerHTML = '';
+  TASKS.forEach(function(task){
+    var done = !!(state[td] && state[td][task.id]);
+    var row  = document.createElement('div');
+    row.className = 'task'+(done?' done':'');
 
-  for (let i = 0; i < TOTAL; i++) {
-    const dateStr  = addDays(start, i);
-    const isToday  = i === todayIdx;
-    const isFuture = i > todayIdx;
-    const dayData  = state[dateStr] || {};
-    const done     = doneCount(dayData);
-    const perf     = isPerfect(dayData);
+    var ico=document.createElement('span'); ico.className='ico'; ico.textContent=task.ico;
+    var inf=document.createElement('div');  inf.className='info';
+    var nm=document.createElement('div');   nm.className='name'; nm.textContent=task.name;
+    var dc=document.createElement('div');   dc.className='desc'; dc.textContent=task.desc;
+    inf.appendChild(nm); inf.appendChild(dc);
 
-    let bClass, bText;
-    if (isFuture)        { bClass = 'b-future';  bText = 'Upcoming'; }
-    else if (isToday)    { bClass = 'b-today';   bText = done === 4 ? '🔥 Perfect' : done + '/4 done'; }
-    else if (perf)       { bClass = 'b-perfect'; bText = '✓ Perfect'; }
-    else if (done > 0)   { bClass = 'b-partial'; bText = done + '/4'; }
-    else                 { bClass = 'b-missed';  bText = 'Missed'; }
+    var btn=document.createElement('button'); btn.className='chk';
+    btn.textContent=done?'✓ Done':'Check off';
+    (function(ds,tid){ btn.onclick=function(){ toggleTask(ds,tid); }; })(td, task.id);
 
-    const shouldOpen = isToday || openSet.has(String(i));
+    row.appendChild(ico); row.appendChild(inf); row.appendChild(btn);
+    tasksCont.appendChild(row);
+  });
 
-    const card = document.createElement('div');
-    card.className = ['day-card', isToday ? 'is-today' : '', perf && !isFuture ? 'is-perfect' : '', isFuture ? 'is-future' : '', shouldOpen ? 'open' : ''].filter(Boolean).join(' ');
-    card.dataset.idx = i;
+  // History (past days only)
+  var histList = document.getElementById('histList');
+  var wasOpen  = histList.classList.contains('open');
+  histList.innerHTML = '';
+  if(wasOpen) histList.classList.add('open');
 
-    // Header
-    const hdr = document.createElement('div');
-    hdr.className = 'day-header';
-    hdr.onclick = () => card.classList.toggle('open');
-    hdr.innerHTML =
-      '<span class="day-num">Day ' + (i + 1) + '</span>' +
-      '<span class="day-title">' + fmtDate(dateStr) + (isToday ? '<span class="today-pill">TODAY</span>' : '') + '</span>' +
-      '<span class="day-badge ' + bClass + '">' + bText + '</span>' +
-      '<span class="chevron">&#9660;</span>';
+  for(var i=idx-1;i>=0;i--){
+    var ds      = addDays(start, i);
+    var dayData = state[ds]||{};
+    var dn      = doneCount(dayData);
+    var perf    = isPerfect(dayData);
 
-    // Tasks wrapper
-    const wrap = document.createElement('div');
-    wrap.className = 'tasks-wrap';
+    var hc = document.createElement('div');
+    hc.className = 'hist-card'+(perf?' perf':'');
 
-    // Quote strip
-    const qs = document.createElement('div');
-    qs.className = 'day-quote-strip';
-    const qp = document.createElement('p');
-    qp.textContent = '“' + QUOTES[Math.min(i, QUOTES.length - 1)] + '”';
-    qs.appendChild(qp);
-    wrap.appendChild(qs);
+    var bClass = perf?'hb-perf': dn>0?'hb-part':'hb-miss';
+    var bText  = perf?'✓ Perfect': dn>0?dn+'/4':'Missed';
 
-    // Task rows
-    TASKS.forEach(function(task) {
-      const checked = !!dayData[task.id];
-      const row = document.createElement('div');
-      row.className = 'task-row' + (checked ? ' done' : '');
+    var hh = document.createElement('div'); hh.className='hist-hdr';
+    hh.innerHTML = '<span class="dn">Day '+(i+1)+'</span>'+
+                   '<span class="dt">'+fmtDate(ds)+'</span>'+
+                   '<span class="hbadge '+bClass+'">'+bText+'</span>';
+    (function(card){ hh.onclick=function(){ card.classList.toggle('open'); }; })(hc);
 
-      const icon = document.createElement('span');
-      icon.className = 'task-icon';
-      icon.textContent = task.icon;
-
-      const body = document.createElement('div');
-      body.className = 'task-body';
-      const nm = document.createElement('div');
-      nm.className = 'task-name';
-      nm.textContent = task.name;
-      const dc = document.createElement('div');
-      dc.className = 'task-desc';
-      dc.textContent = task.desc;
-      body.appendChild(nm);
-      body.appendChild(dc);
-
-      const btn = document.createElement('button');
-      btn.className = 'check-btn';
-      btn.textContent = checked ? '✓ Done' : 'Check off';
-      btn.onclick = (function(ds, tid) {
-        return function(e) { e.stopPropagation(); toggleTask(ds, tid); };
-      })(dateStr, task.id);
-
-      row.appendChild(icon);
-      row.appendChild(body);
-      row.appendChild(btn);
-      wrap.appendChild(row);
+    var ht = document.createElement('div'); ht.className='hist-tasks';
+    TASKS.forEach(function(task){
+      var done = !!(dayData[task.id]);
+      var r=document.createElement('div'); r.className='hist-task-row'+(done?' done':'');
+      var ico=document.createElement('span'); ico.className='ico'; ico.textContent=task.ico;
+      var nm=document.createElement('div');  nm.className='nm';  nm.textContent=task.name;
+      var btn=document.createElement('button'); btn.className='hist-chk';
+      btn.textContent=done?'✓ Done':'Check off';
+      (function(ds2,tid){ btn.onclick=function(){ toggleTask(ds2,tid); }; })(ds, task.id);
+      r.appendChild(ico); r.appendChild(nm); r.appendChild(btn);
+      ht.appendChild(r);
     });
 
-    card.appendChild(hdr);
-    card.appendChild(wrap);
-    grid.appendChild(card);
+    hc.appendChild(hh); hc.appendChild(ht);
+    histList.appendChild(hc);
   }
 
-  // Scroll today's card into view on first render
-  const todayCard = grid.querySelector('.is-today');
-  if (todayCard && !grid.dataset.scrolled) {
-    grid.dataset.scrolled = '1';
-    setTimeout(function() { todayCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+  var histBtn = document.getElementById('histToggle');
+  histBtn.style.display = idx>0?'block':'none';
+}
+
+// ── Reset ───────────────────────────────────────────────────────────────────
+function doReset(){
+  if(confirm('Reset ALL progress? This cannot be undone.')){
+    store.del(SK); store.del(SD); render();
   }
 }
 
-// ── Reset ──────────────────────────────────────────────────────────────────
-document.getElementById('resetBtn').addEventListener('click', function() {
-  if (confirm('Reset ALL progress? This cannot be undone.')) {
-    store.del(STORE_STATE);
-    store.del(STORE_START);
-    render();
-  }
-});
-
-// ── Boot ───────────────────────────────────────────────────────────────────
 render();
 </script>
 </body>
