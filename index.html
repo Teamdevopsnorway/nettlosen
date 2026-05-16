@@ -278,6 +278,58 @@
       color: var(--green);
     }
 
+    /* ── Quote of the day ── */
+    .quote-of-day {
+      max-width: 680px;
+      margin: 0 auto 28px;
+      background: linear-gradient(135deg, #160000 0%, #0d0d0d 100%);
+      border: 1px solid var(--accent2);
+      border-left: 4px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+    }
+
+    .quote-of-day .q-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quote-of-day .q-text {
+      font-size: clamp(15px, 2.5vw, 18px);
+      font-weight: 700;
+      line-height: 1.45;
+      font-style: italic;
+      color: #f8f8f8;
+    }
+
+    .quote-of-day .q-day {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Quote inside day card */
+    .day-quote {
+      margin: 12px 0 4px;
+      padding: 10px 14px;
+      background: #110000;
+      border-left: 3px solid var(--accent2);
+      border-radius: 6px;
+    }
+
+    .day-quote .dq-text {
+      font-size: 13px;
+      font-style: italic;
+      color: #ccc;
+      line-height: 1.4;
+    }
+
     @media (max-width: 480px) {
       .streak-row { gap: 8px; }
       .stat-pill { padding: 8px 10px; }
@@ -295,6 +347,12 @@
 <div class="goal-banner">
   <div class="goal-label">Main Goal</div>
   <div class="goal-text">Buy a House &amp; Provide for My Family</div>
+</div>
+
+<div class="quote-of-day" id="quoteOfDay">
+  <div class="q-label">🔥 Day <span id="qDayNum">1</span> — Truth of the Day</div>
+  <div class="q-text" id="qText"></div>
+  <div class="q-day" id="qDate"></div>
 </div>
 
 <div class="progress-section">
@@ -333,6 +391,109 @@
 <button class="reset-btn" onclick="confirmReset()">Reset All Progress</button>
 
 <script>
+  const QUOTES = [
+    "Nobody is coming to save you. Get up and save yourself.",
+    "Your family deserves better than your best excuse.",
+    "The house won't buy itself while you scroll through someone else's life.",
+    "Discipline is doing it when you don't feel like it. Motivation is a lie.",
+    "You can rest when you're stable. Right now you're not.",
+    "Every skipped workout is a vote for weakness.",
+    "Comfort is a trap. You chose it today — own that.",
+    "The man who reads 10 pages daily will outthink you in a year. Are you him?",
+    "Your kids will either grow up proud or wondering why you gave up.",
+    "Sleep at 21:00 or explain tomorrow why you're running on empty again.",
+    "Pain now or regret forever. Pick one.",
+    "Someone with your same dream is posting while you hesitate.",
+    "You are not tired. You are undisciplined. There is a difference.",
+    "The algorithm doesn't care about your mood. Post anyway.",
+    "A missed day is not a rest day. It is a setback you chose.",
+    "Your family's security is built one disciplined day at a time.",
+    "You talk about buying a house. Men who buy houses don't talk — they execute.",
+    "Soft mornings produce soft results. Get up at 05:00 or stay average.",
+    "Reading makes you rich. Scrolling keeps you broke. Choose.",
+    "Every rep you skip, your future self pays for.",
+    "You are not behind. You are undisciplined. Fix that.",
+    "The video you don't post today helps your competitor, not you.",
+    "Nobody remembers the man who almost did it.",
+    "Stop performing discipline. Start living it.",
+    "Your excuses are world-class. Your results are not.",
+    "The goal is a house. Every lazy day is a mortgage payment you can't afford.",
+    "45 minutes of training is 3% of your day. You have no excuse.",
+    "You will not outwork your bad habits. You must kill them.",
+    "Mediocrity is always available. Excellence requires today's reps.",
+    "Your children will inherit your habits, not your intentions.",
+    "The man who controls his schedule controls his destiny.",
+    "If your why doesn't make you uncomfortable, it's not big enough.",
+    "You can't build a house on feelings. Build it on daily action.",
+    "Nobody posts perfectly. Shipped is better than perfect.",
+    "There is no version of success that doesn't require discipline at 05:00.",
+    "Weak mornings build weak men. Strong mornings build legacies.",
+    "The financial book you didn't read is the lesson you'll learn the hard way.",
+    "You are playing the long game. Stop making short-game decisions.",
+    "Hard work is not enough — consistent hard work is.",
+    "Your dream is average without daily execution.",
+    "Training 45 minutes is not impressive. NOT training is just embarrassing.",
+    "Another man is grinding the same hours you are wasting.",
+    "The best investment is in yourself. Are you making it today?",
+    "You don't rise to the level of your goals. You fall to the level of your systems.",
+    "Your bed is not your enemy. Your lack of purpose is.",
+    "Every page of a financial book is a brick in a wall your kids will shelter behind.",
+    "You said this was important. Your calendar says otherwise.",
+    "Stop curating your image and start building your reality.",
+    "The video you are embarrassed to post is the one that would have changed things.",
+    "You are not unlucky. You are underprepared.",
+    "Rest is earned. You haven't earned it yet today.",
+    "Growth requires repetition even when it bores you.",
+    "The market doesn't care about your feelings. Post. Train. Read. Sleep. Repeat.",
+    "One year of discipline will shock everyone who doubted you — including yourself.",
+    "A man who can't control his sleep schedule can't control his finances.",
+    "Most people have the same 24 hours as you. Most people are broke.",
+    "You want the house? Then act like the person who owns it already.",
+    "Your habits are louder than your ambitions.",
+    "Skipping today doesn't delete the goal. It delays it — and delays cost money.",
+    "Nobody wakes up at 05:00 because they feel like it. They wake up because they decided to.",
+    "The content you don't create today is income you'll never see.",
+    "You are the only obstacle between your family and stability.",
+    "Being tired is temporary. Being broke is optional.",
+    "Accountability starts in the dark, alone, when no one is watching.",
+    "You don't build a legacy by feeling ready. You build it by starting scared.",
+    "The 45 minutes you skip will be the 45 minutes you regret in 10 years.",
+    "Financial freedom is not found — it's built, page by page, rep by rep, day by day.",
+    "Your future is being decided by what you do in the next hour.",
+    "Consistency is boring on purpose. Boring things work.",
+    "The man who stops posting stops growing. Full stop.",
+    "You can make excuses or you can make progress. The time cost is the same.",
+    "Every morning at 05:00 is a declaration: I want more than average.",
+    "You will not be handed stability. You will have to become someone who earns it.",
+    "Stop waiting to feel worthy of the goal. Earn it with your actions.",
+    "What you do today is practice for the person your family needs you to be.",
+    "Buying a house is a consequence of a thousand right decisions. Make one today.",
+    "The hardest part is never the training. It's doing it when you could easily not.",
+    "Read the book. The people who own houses read books.",
+    "You are one consistent year away from a completely different life.",
+    "Posting daily builds an audience. Not posting builds a graveyard.",
+    "Softness in routine produces hardship in life.",
+    "Your morning is your most honest vote for the life you want.",
+    "Every perfect day is a stone in the foundation of your family's home.",
+    "The man who earns sleep at 05:00 shutdown is the man who deserves to rise at 05:00.",
+    "Your discomfort is proof that you are doing something that matters.",
+    "Stop imagining the house. Start earning it, one task at a time.",
+    "The man with no discipline will always work for the man who has it.",
+    "You don't need motivation. You need non-negotiables.",
+    "This is Day 88. If it were easy, everyone would do it. It's not. Do it anyway.",
+    "The gap between where you are and where you want to be is filled with reps.",
+    "You are building something real. Treat every day like a brick you can't afford to waste.",
+    "Comfort is the rent you pay to stay average.",
+    "The people who own their home didn't wait until they felt ready.",
+    "Hard days reveal your character. Easy days waste it.",
+    "You're on Day 95. This is not the time to slow down.",
+    "Every sacrifice you make now is paid back with interest to your family.",
+    "This is Day 97. Three days from 100. What kind of man finishes strong?",
+    "Day 98. The man you were 98 days ago is watching. Don't let him down.",
+    "Day 99. One day left. You do not coast to the finish line. You sprint.",
+    "Day 100. You did it. Now prove it wasn't a phase — start Day 1 again."
+  ];
+
   const STORAGE_KEY = 'powerlist_v1';
   const START_DATE_KEY = 'powerlist_start';
   const TOTAL_DAYS = 100;
@@ -459,6 +620,12 @@
 
     const { perfectDays, streak, bestStreak } = computeStats(state, startDate, todayIdx);
 
+    // Render today's quote
+    const todayQuote = QUOTES[Math.min(todayIdx, QUOTES.length - 1)];
+    document.getElementById('qDayNum').textContent = todayIdx + 1;
+    document.getElementById('qText').textContent = '"' + todayQuote + '"';
+    document.getElementById('qDate').textContent = formatDate(dateForDayIndex(startDate, todayIdx));
+
     document.getElementById('daysCompleted').textContent = perfectDays;
     document.getElementById('progressFill').style.width = (perfectDays) + '%';
     document.getElementById('streakVal').textContent = streak;
@@ -523,6 +690,9 @@
           <span class="chevron">▼</span>
         </div>
         <div class="tasks-list">
+          <div class="day-quote">
+            <div class="dq-text">"${QUOTES[Math.min(i, QUOTES.length - 1)]}"</div>
+          </div>
           ${TASKS.map(task => {
             const checked = !!dayData[task.id];
             return `
