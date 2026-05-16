@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>100 Day Powerlist — Walter Cobb</title>
   <style>
     :root {
@@ -16,125 +16,61 @@
       --muted: #888;
       --radius: 12px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
       min-height: 100vh;
-      padding: 24px 16px 60px;
+      padding: 24px 16px 80px;
+      -webkit-text-size-adjust: 100%;
     }
+    header { text-align: center; margin-bottom: 28px; }
+    .brand { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    h1 { font-size: clamp(24px, 6vw, 40px); font-weight: 800; line-height: 1.1; }
 
-    header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .brand {
-      font-size: 13px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      font-size: clamp(24px, 5vw, 40px);
-      font-weight: 800;
-      line-height: 1.1;
-    }
-
+    /* Goal banner */
     .goal-banner {
       background: linear-gradient(135deg, #1a1000 0%, #1a0800 100%);
       border: 1px solid var(--accent);
       border-radius: var(--radius);
-      padding: 20px 24px;
-      margin: 20px auto;
-      max-width: 680px;
+      padding: 18px 20px;
+      margin: 0 auto 20px;
+      max-width: 640px;
       text-align: center;
     }
+    .goal-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .goal-text { font-size: 19px; font-weight: 700; }
 
-    .goal-label {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 6px;
+    /* Quote of day */
+    .quote-box {
+      background: #130000;
+      border: 1px solid var(--accent2);
+      border-left: 4px solid var(--accent2);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      margin: 0 auto 22px;
+      max-width: 640px;
     }
+    .q-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2); margin-bottom: 8px; }
+    .q-text { font-size: clamp(14px, 3.5vw, 17px); font-weight: 700; font-style: italic; line-height: 1.45; color: #f5f5f5; }
+    .q-date { font-size: 11px; color: var(--muted); margin-top: 8px; }
 
-    .goal-text {
-      font-size: 20px;
-      font-weight: 700;
-    }
+    /* Stats */
+    .stats-section { max-width: 640px; margin: 0 auto 24px; }
+    .stats-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .stats-label { font-size: 13px; color: var(--muted); }
+    .stats-count { font-size: 26px; font-weight: 800; color: var(--accent); }
+    .stats-sub { font-size: 12px; color: var(--muted); }
+    .progress-bar { height: 7px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 99px; transition: width 0.4s; }
+    .pill-row { display: flex; gap: 10px; }
+    .pill { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
+    .pill .val { font-size: 20px; font-weight: 800; color: var(--accent); }
+    .pill .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
-    .progress-section {
-      max-width: 680px;
-      margin: 0 auto 28px;
-    }
-
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 10px;
-    }
-
-    .progress-label { font-size: 14px; color: var(--muted); }
-    .progress-count { font-size: 28px; font-weight: 800; color: var(--accent); }
-    .progress-sub { font-size: 13px; color: var(--muted); }
-
-    .progress-bar {
-      height: 8px;
-      background: var(--border);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent2), var(--accent));
-      border-radius: 99px;
-      transition: width 0.4s ease;
-    }
-
-    .streak-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .stat-pill {
-      flex: 1;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-      text-align: center;
-    }
-
-    .stat-pill .val {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--accent);
-    }
-
-    .stat-pill .lbl {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* Day cards grid */
-    .days-grid {
-      max-width: 680px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    /* Day grid */
+    .days-grid { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
 
     .day-card {
       background: var(--card);
@@ -143,203 +79,107 @@
       overflow: hidden;
       transition: border-color 0.2s;
     }
-
-    .day-card.today { border-color: var(--accent); }
-    .day-card.perfect { border-color: var(--green); }
-    .day-card.future { opacity: 0.45; pointer-events: none; }
+    .day-card.is-today { border-color: var(--accent); }
+    .day-card.is-perfect { border-color: var(--green); }
+    .day-card.is-future { opacity: 0.35; pointer-events: none; }
 
     .day-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
+      gap: 10px;
+      padding: 13px 14px;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
       user-select: none;
     }
-
-    .day-number {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--muted);
-      min-width: 48px;
-    }
-
-    .day-title {
-      flex: 1;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .day-badge {
-      font-size: 12px;
-      padding: 3px 10px;
-      border-radius: 99px;
-      font-weight: 700;
-    }
-
-    .badge-perfect { background: #14532d; color: var(--green); }
-    .badge-partial { background: #2c1a00; color: var(--accent); }
-    .badge-missed  { background: #2a0a0a; color: #ef4444; }
-    .badge-today   { background: #1a0d00; color: var(--accent); border: 1px solid var(--accent); }
-    .badge-future  { background: var(--border); color: var(--muted); }
-
-    .chevron {
-      font-size: 12px;
-      color: var(--muted);
-      transition: transform 0.2s;
-    }
-
+    .day-num { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); min-width: 44px; }
+    .day-title { flex: 1; font-size: 14px; font-weight: 600; }
+    .today-pill { display: inline-block; font-size: 10px; background: var(--accent); color: #000; padding: 2px 7px; border-radius: 4px; margin-left: 6px; font-weight: 800; letter-spacing: 1px; }
+    .day-badge { font-size: 11px; padding: 3px 9px; border-radius: 99px; font-weight: 700; white-space: nowrap; }
+    .b-perfect { background: #14532d; color: var(--green); }
+    .b-partial  { background: #2c1a00; color: var(--accent); }
+    .b-missed   { background: #2a0a0a; color: #ef4444; }
+    .b-today    { background: #1a0d00; color: var(--accent); border: 1px solid var(--accent); }
+    .b-future   { background: var(--border); color: var(--muted); }
+    .chevron { font-size: 11px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
     .day-card.open .chevron { transform: rotate(180deg); }
 
-    .tasks-list {
-      display: none;
-      padding: 0 16px 16px;
-      border-top: 1px solid var(--border);
+    /* Tasks */
+    .tasks-wrap { display: none; border-top: 1px solid var(--border); padding: 0 14px 14px; }
+    .day-card.open .tasks-wrap { display: block; }
+
+    .day-quote-strip {
+      margin: 12px 0 8px;
+      padding: 10px 12px;
+      background: #100000;
+      border-left: 3px solid var(--accent2);
+      border-radius: 6px;
     }
+    .day-quote-strip p { font-size: 12px; font-style: italic; color: #bbb; line-height: 1.4; }
 
-    .day-card.open .tasks-list { display: block; }
-
-    .task-item {
+    .task-row {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 0;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 0;
       border-bottom: 1px solid var(--border);
-      cursor: pointer;
     }
+    .task-row:last-child { border-bottom: none; }
+    .task-icon { font-size: 18px; flex-shrink: 0; }
+    .task-body { flex: 1; }
+    .task-name { font-size: 14px; font-weight: 600; }
+    .task-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .task-row.done .task-name { text-decoration: line-through; color: var(--muted); }
 
-    .task-item:last-child { border-bottom: none; }
-
-    .task-btn {
+    /* THE CHECK BUTTON */
+    .check-btn {
       flex-shrink: 0;
-      padding: 8px 14px;
-      border-radius: 8px;
+      min-width: 80px;
+      padding: 10px 14px;
+      border-radius: 10px;
       border: 2px solid #555;
-      background: #222;
-      color: #ccc;
+      background: #252525;
+      color: #ddd;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
-      white-space: nowrap;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
       transition: all 0.15s;
-      letter-spacing: 0.5px;
+      touch-action: manipulation;
     }
-
-    .task-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: #261a00;
-    }
-
-    .task-item.done .task-btn {
+    .check-btn:active { transform: scale(0.95); }
+    .task-row.done .check-btn {
       background: var(--green);
       border-color: var(--green);
       color: #000;
     }
 
-    .task-body { flex: 1; }
-    .task-name { font-size: 14px; font-weight: 600; }
-    .task-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .task-item.done .task-name { text-decoration: line-through; color: var(--muted); }
+    /* Win message */
+    .win-msg { display: none; text-align: center; padding: 12px; font-size: 15px; font-weight: 800; color: var(--green); }
 
-    .task-icon { font-size: 18px; flex-shrink: 0; }
-
-    /* Today auto-open indicator */
-    .today-label {
-      display: inline-block;
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      background: var(--accent);
-      color: #000;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin-left: 8px;
-      font-weight: 800;
-    }
-
+    /* Reset */
     .reset-btn {
       display: block;
-      margin: 40px auto 0;
+      margin: 36px auto 0;
       background: none;
       border: 1px solid #333;
       color: var(--muted);
-      padding: 8px 20px;
+      padding: 9px 22px;
       border-radius: 8px;
       cursor: pointer;
       font-size: 13px;
       transition: all 0.15s;
+      touch-action: manipulation;
     }
+    .reset-btn:hover, .reset-btn:active { border-color: #ef4444; color: #ef4444; }
 
-    .reset-btn:hover { border-color: #ef4444; color: #ef4444; }
-
-    .confetti-msg {
-      display: none;
+    .safari-tip {
+      max-width: 640px;
+      margin: 16px auto 0;
       text-align: center;
-      padding: 10px;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--green);
-    }
-
-    /* ── Quote of the day ── */
-    .quote-of-day {
-      max-width: 680px;
-      margin: 0 auto 28px;
-      background: linear-gradient(135deg, #160000 0%, #0d0d0d 100%);
-      border: 1px solid var(--accent2);
-      border-left: 4px solid var(--accent2);
-      border-radius: var(--radius);
-      padding: 18px 22px;
-    }
-
-    .quote-of-day .q-label {
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .quote-of-day .q-text {
-      font-size: clamp(15px, 2.5vw, 18px);
-      font-weight: 700;
-      line-height: 1.45;
-      font-style: italic;
-      color: #f8f8f8;
-    }
-
-    .quote-of-day .q-day {
-      margin-top: 10px;
       font-size: 11px;
-      color: var(--muted);
-    }
-
-    /* Quote inside day card */
-    .day-quote {
-      margin: 12px 0 4px;
-      padding: 10px 14px;
-      background: #110000;
-      border-left: 3px solid var(--accent2);
-      border-radius: 6px;
-    }
-
-    .day-quote .dq-text {
-      font-size: 13px;
-      font-style: italic;
-      color: #ccc;
-      line-height: 1.4;
-    }
-
-    @media (max-width: 480px) {
-      .streak-row { gap: 8px; }
-      .stat-pill { padding: 8px 10px; }
-      .stat-pill .val { font-size: 18px; }
+      color: #555;
     }
   </style>
 </head>
@@ -355,410 +195,362 @@
   <div class="goal-text">Buy a House &amp; Provide for My Family</div>
 </div>
 
-<div class="quote-of-day" id="quoteOfDay">
+<div class="quote-box" id="quoteBox">
   <div class="q-label">🔥 Day <span id="qDayNum">1</span> — Truth of the Day</div>
-  <div class="q-text" id="qText"></div>
-  <div class="q-day" id="qDate"></div>
+  <div class="q-text" id="qText">Loading...</div>
+  <div class="q-date" id="qDate"></div>
 </div>
 
-<div class="progress-section">
-  <div class="progress-header">
-    <span class="progress-label">Overall Progress</span>
+<div class="stats-section">
+  <div class="stats-header">
+    <span class="stats-label">Overall Progress</span>
     <span>
-      <span class="progress-count" id="daysCompleted">0</span>
-      <span class="progress-sub"> / 100 perfect days</span>
+      <span class="stats-count" id="daysCompleted">0</span>
+      <span class="stats-sub"> / 100 perfect days</span>
     </span>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progressFill" style="width:0%"></div>
-  </div>
-  <div class="streak-row">
-    <div class="stat-pill">
-      <div class="val" id="streakVal">0</div>
-      <div class="lbl">Current Streak</div>
-    </div>
-    <div class="stat-pill">
-      <div class="val" id="bestStreakVal">0</div>
-      <div class="lbl">Best Streak</div>
-    </div>
-    <div class="stat-pill">
-      <div class="val" id="tasksToday">0/4</div>
-      <div class="lbl">Today's Tasks</div>
-    </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="pill-row">
+    <div class="pill"><div class="val" id="streakVal">0</div><div class="lbl">Streak</div></div>
+    <div class="pill"><div class="val" id="bestStreakVal">0</div><div class="lbl">Best</div></div>
+    <div class="pill"><div class="val" id="todayCount">0/4</div><div class="lbl">Today</div></div>
   </div>
 </div>
 
+<div class="win-msg" id="winMsg">All 4 done today. Let's go! 🔥</div>
 <div class="days-grid" id="daysGrid"></div>
 
-<div class="confetti-msg" id="confettiMsg">
-  All 4 tasks done today! Let's go! 🔥
-</div>
-
-<button class="reset-btn" onclick="confirmReset()">Reset All Progress</button>
+<button class="reset-btn" id="resetBtn">Reset All Progress</button>
+<p class="safari-tip">Tip: Open in Safari to save progress between sessions.</p>
 
 <script>
-  const QUOTES = [
-    "Nobody is coming to save you. Get up and save yourself.",
-    "Your family deserves better than your best excuse.",
-    "The house won't buy itself while you scroll through someone else's life.",
-    "Discipline is doing it when you don't feel like it. Motivation is a lie.",
-    "You can rest when you're stable. Right now you're not.",
-    "Every skipped workout is a vote for weakness.",
-    "Comfort is a trap. You chose it today — own that.",
-    "The man who reads 10 pages daily will outthink you in a year. Are you him?",
-    "Your kids will either grow up proud or wondering why you gave up.",
-    "Sleep at 21:00 or explain tomorrow why you're running on empty again.",
-    "Pain now or regret forever. Pick one.",
-    "Someone with your same dream is posting while you hesitate.",
-    "You are not tired. You are undisciplined. There is a difference.",
-    "The algorithm doesn't care about your mood. Post anyway.",
-    "A missed day is not a rest day. It is a setback you chose.",
-    "Your family's security is built one disciplined day at a time.",
-    "You talk about buying a house. Men who buy houses don't talk — they execute.",
-    "Soft mornings produce soft results. Get up at 05:00 or stay average.",
-    "Reading makes you rich. Scrolling keeps you broke. Choose.",
-    "Every rep you skip, your future self pays for.",
-    "You are not behind. You are undisciplined. Fix that.",
-    "The video you don't post today helps your competitor, not you.",
-    "Nobody remembers the man who almost did it.",
-    "Stop performing discipline. Start living it.",
-    "Your excuses are world-class. Your results are not.",
-    "The goal is a house. Every lazy day is a mortgage payment you can't afford.",
-    "45 minutes of training is 3% of your day. You have no excuse.",
-    "You will not outwork your bad habits. You must kill them.",
-    "Mediocrity is always available. Excellence requires today's reps.",
-    "Your children will inherit your habits, not your intentions.",
-    "The man who controls his schedule controls his destiny.",
-    "If your why doesn't make you uncomfortable, it's not big enough.",
-    "You can't build a house on feelings. Build it on daily action.",
-    "Nobody posts perfectly. Shipped is better than perfect.",
-    "There is no version of success that doesn't require discipline at 05:00.",
-    "Weak mornings build weak men. Strong mornings build legacies.",
-    "The financial book you didn't read is the lesson you'll learn the hard way.",
-    "You are playing the long game. Stop making short-game decisions.",
-    "Hard work is not enough — consistent hard work is.",
-    "Your dream is average without daily execution.",
-    "Training 45 minutes is not impressive. NOT training is just embarrassing.",
-    "Another man is grinding the same hours you are wasting.",
-    "The best investment is in yourself. Are you making it today?",
-    "You don't rise to the level of your goals. You fall to the level of your systems.",
-    "Your bed is not your enemy. Your lack of purpose is.",
-    "Every page of a financial book is a brick in a wall your kids will shelter behind.",
-    "You said this was important. Your calendar says otherwise.",
-    "Stop curating your image and start building your reality.",
-    "The video you are embarrassed to post is the one that would have changed things.",
-    "You are not unlucky. You are underprepared.",
-    "Rest is earned. You haven't earned it yet today.",
-    "Growth requires repetition even when it bores you.",
-    "The market doesn't care about your feelings. Post. Train. Read. Sleep. Repeat.",
-    "One year of discipline will shock everyone who doubted you — including yourself.",
-    "A man who can't control his sleep schedule can't control his finances.",
-    "Most people have the same 24 hours as you. Most people are broke.",
-    "You want the house? Then act like the person who owns it already.",
-    "Your habits are louder than your ambitions.",
-    "Skipping today doesn't delete the goal. It delays it — and delays cost money.",
-    "Nobody wakes up at 05:00 because they feel like it. They wake up because they decided to.",
-    "The content you don't create today is income you'll never see.",
-    "You are the only obstacle between your family and stability.",
-    "Being tired is temporary. Being broke is optional.",
-    "Accountability starts in the dark, alone, when no one is watching.",
-    "You don't build a legacy by feeling ready. You build it by starting scared.",
-    "The 45 minutes you skip will be the 45 minutes you regret in 10 years.",
-    "Financial freedom is not found — it's built, page by page, rep by rep, day by day.",
-    "Your future is being decided by what you do in the next hour.",
-    "Consistency is boring on purpose. Boring things work.",
-    "The man who stops posting stops growing. Full stop.",
-    "You can make excuses or you can make progress. The time cost is the same.",
-    "Every morning at 05:00 is a declaration: I want more than average.",
-    "You will not be handed stability. You will have to become someone who earns it.",
-    "Stop waiting to feel worthy of the goal. Earn it with your actions.",
-    "What you do today is practice for the person your family needs you to be.",
-    "Buying a house is a consequence of a thousand right decisions. Make one today.",
-    "The hardest part is never the training. It's doing it when you could easily not.",
-    "Read the book. The people who own houses read books.",
-    "You are one consistent year away from a completely different life.",
-    "Posting daily builds an audience. Not posting builds a graveyard.",
-    "Softness in routine produces hardship in life.",
-    "Your morning is your most honest vote for the life you want.",
-    "Every perfect day is a stone in the foundation of your family's home.",
-    "The man who earns sleep at 05:00 shutdown is the man who deserves to rise at 05:00.",
-    "Your discomfort is proof that you are doing something that matters.",
-    "Stop imagining the house. Start earning it, one task at a time.",
-    "The man with no discipline will always work for the man who has it.",
-    "You don't need motivation. You need non-negotiables.",
-    "This is Day 88. If it were easy, everyone would do it. It's not. Do it anyway.",
-    "The gap between where you are and where you want to be is filled with reps.",
-    "You are building something real. Treat every day like a brick you can't afford to waste.",
-    "Comfort is the rent you pay to stay average.",
-    "The people who own their home didn't wait until they felt ready.",
-    "Hard days reveal your character. Easy days waste it.",
-    "You're on Day 95. This is not the time to slow down.",
-    "Every sacrifice you make now is paid back with interest to your family.",
-    "This is Day 97. Three days from 100. What kind of man finishes strong?",
-    "Day 98. The man you were 98 days ago is watching. Don't let him down.",
-    "Day 99. One day left. You do not coast to the finish line. You sprint.",
-    "Day 100. You did it. Now prove it wasn't a phase — start Day 1 again."
-  ];
+// ── Safe storage (works even when localStorage is blocked) ────────────────
+const store = (() => {
+  const mem = {};
+  let ok = false;
+  try { localStorage.setItem('__t', '1'); localStorage.removeItem('__t'); ok = true; } catch (_) {}
+  return {
+    get(k)    { try { return ok ? localStorage.getItem(k) : (mem[k] ?? null); } catch(_) { return mem[k] ?? null; } },
+    set(k, v) { try { if (ok) localStorage.setItem(k, v); else mem[k] = v; } catch(_) { mem[k] = v; } },
+    del(k)    { try { if (ok) localStorage.removeItem(k); else delete mem[k]; } catch(_) { delete mem[k]; } }
+  };
+})();
 
-  const STORAGE_KEY = 'powerlist_v1';
-  const START_DATE_KEY = 'powerlist_start';
-  const TOTAL_DAYS = 100;
+// ── Constants ──────────────────────────────────────────────────────────────
+const STORE_STATE = 'pl_state_v2';
+const STORE_START = 'pl_start_v2';
+const TOTAL = 100;
 
-  const TASKS = [
-    {
-      id: 'video',
-      icon: '🎬',
-      name: 'Post 1 Video on Walter Cobb',
-      desc: 'Run through TJR prompt validation before posting'
-    },
-    {
-      id: 'train',
-      icon: '💪',
-      name: 'Train 45 Minutes',
-      desc: 'No excuses — 45 min minimum'
-    },
-    {
-      id: 'read',
-      icon: '📖',
-      name: 'Read 10 Pages',
-      desc: 'Financial book — knowledge builds wealth'
-    },
-    {
-      id: 'sleep',
-      icon: '🌙',
-      name: 'Bed 21:00 — Up 05:00',
-      desc: 'Protect your energy. 8 hours, every night'
-    }
-  ];
+const TASKS = [
+  { id: 'video', icon: '🎬', name: 'Post 1 Video on Walter Cobb', desc: 'Run through TJR prompt validation first' },
+  { id: 'train', icon: '💪', name: 'Train 45 Minutes',            desc: 'No excuses — 45 min minimum' },
+  { id: 'read',  icon: '📖', name: 'Read 10 Pages',               desc: 'Financial book — knowledge builds wealth' },
+  { id: 'sleep', icon: '🌙', name: 'Bed 21:00 — Up 05:00',        desc: 'Protect your energy. 8 hours every night' }
+];
 
-  // ── State ──────────────────────────────────────────────────────────────────
+const QUOTES = [
+  "Nobody is coming to save you. Get up and save yourself.",
+  "Your family deserves better than your best excuse.",
+  "The house won't buy itself while you scroll through someone else's life.",
+  "Discipline is doing it when you don't feel like it. Motivation is a lie.",
+  "You can rest when you're stable. Right now you're not.",
+  "Every skipped workout is a vote for weakness.",
+  "Comfort is a trap. You chose it today — own that.",
+  "Every rep you skip, your future self pays for.",
+  "Sleep at 21:00 or explain tomorrow why you're running on empty again.",
+  "Pain now or regret forever. Pick one.",
+  "Someone with your same dream is posting while you hesitate.",
+  "You are not tired. You are undisciplined. There is a difference.",
+  "The algorithm doesn't care about your mood. Post anyway.",
+  "A missed day is not a rest day. It is a setback you chose.",
+  "Your family's security is built one disciplined day at a time.",
+  "You talk about buying a house. Men who buy houses don't talk — they execute.",
+  "Soft mornings produce soft results. Get up at 05:00 or stay average.",
+  "Reading makes you rich. Scrolling keeps you broke. Choose.",
+  "The video you don't post today helps your competitor, not you.",
+  "Nobody remembers the man who almost did it.",
+  "Stop performing discipline. Start living it.",
+  "Your excuses are world-class. Your results are not.",
+  "The goal is a house. Every lazy day is a mortgage payment you can't afford.",
+  "45 minutes of training is 3% of your day. You have no excuse.",
+  "You will not outwork your bad habits. You must kill them.",
+  "Mediocrity is always available. Excellence requires today's reps.",
+  "Your children will inherit your habits, not your intentions.",
+  "The man who controls his schedule controls his destiny.",
+  "If your why doesn't make you uncomfortable, it's not big enough.",
+  "You can't build a house on feelings. Build it on daily action.",
+  "Nobody posts perfectly. Shipped is better than perfect.",
+  "There is no version of success that doesn't require discipline at 05:00.",
+  "Weak mornings build weak men. Strong mornings build legacies.",
+  "The financial book you didn't read is the lesson you'll learn the hard way.",
+  "You are playing the long game. Stop making short-game decisions.",
+  "Hard work is not enough — consistent hard work is.",
+  "Another man is grinding the same hours you are wasting.",
+  "The best investment is in yourself. Are you making it today?",
+  "You don't rise to the level of your goals. You fall to the level of your systems.",
+  "Your bed is not your enemy. Your lack of purpose is.",
+  "Every page of a financial book is a brick in the wall your kids will shelter behind.",
+  "You said this was important. Your calendar says otherwise.",
+  "Stop curating your image and start building your reality.",
+  "The video you are embarrassed to post is the one that would have changed things.",
+  "You are not unlucky. You are underprepared.",
+  "Rest is earned. You haven't earned it yet today.",
+  "Growth requires repetition even when it bores you.",
+  "The market doesn't care about your feelings. Post. Train. Read. Sleep. Repeat.",
+  "One year of discipline will shock everyone who doubted you — including yourself.",
+  "A man who can't control his sleep schedule can't control his finances.",
+  "Most people have the same 24 hours as you. Most people are broke.",
+  "You want the house? Then act like the person who owns it already.",
+  "Your habits are louder than your ambitions.",
+  "Skipping today doesn't delete the goal. It delays it — and delays cost money.",
+  "Nobody wakes up at 05:00 because they feel like it. They wake up because they decided to.",
+  "The content you don't create today is income you'll never see.",
+  "You are the only obstacle between your family and stability.",
+  "Being tired is temporary. Being broke is optional.",
+  "Accountability starts in the dark, alone, when no one is watching.",
+  "You don't build a legacy by feeling ready. You build it by starting scared.",
+  "The 45 minutes you skip will be the 45 minutes you regret in 10 years.",
+  "Financial freedom is not found — it's built, page by page, rep by rep, day by day.",
+  "Your future is being decided by what you do in the next hour.",
+  "Consistency is boring on purpose. Boring things work.",
+  "The man who stops posting stops growing. Full stop.",
+  "You can make excuses or you can make progress. The time cost is the same.",
+  "Every morning at 05:00 is a declaration: I want more than average.",
+  "You will not be handed stability. You will have to become someone who earns it.",
+  "Stop waiting to feel worthy of the goal. Earn it with your actions.",
+  "What you do today is practice for the person your family needs you to be.",
+  "Buying a house is a consequence of a thousand right decisions. Make one today.",
+  "The hardest part is never the training. It's doing it when you could easily not.",
+  "Read the book. The people who own houses read books.",
+  "You are one consistent year away from a completely different life.",
+  "Posting daily builds an audience. Not posting builds a graveyard.",
+  "Softness in routine produces hardship in life.",
+  "Your morning is your most honest vote for the life you want.",
+  "Every perfect day is a stone in the foundation of your family's home.",
+  "Your discomfort is proof that you are doing something that matters.",
+  "Stop imagining the house. Start earning it, one task at a time.",
+  "The man with no discipline will always work for the man who has it.",
+  "You don't need motivation. You need non-negotiables.",
+  "Day 84. If it were easy, everyone would do it. It's not. Do it anyway.",
+  "The gap between where you are and where you want to be is filled with reps.",
+  "You are building something real. Treat every day like a brick you can't afford to waste.",
+  "Comfort is the rent you pay to stay average.",
+  "The people who own their home didn't wait until they felt ready.",
+  "Hard days reveal your character. Easy days waste it.",
+  "Day 90. This is not the time to slow down.",
+  "Every sacrifice you make now is paid back with interest to your family.",
+  "Day 92. Excuses get harder to make when you're this close.",
+  "Day 93. You've built something real. Don't break it now.",
+  "Day 94. The man you were 94 days ago would not believe you.",
+  "Day 95. Five percent left. Finish like you mean it.",
+  "Day 96. Anyone can start. Only the serious finish.",
+  "Day 97. Three days from 100. What kind of man finishes strong?",
+  "Day 98. The man you were 98 days ago is watching. Don't let him down.",
+  "Day 99. One day left. You do not coast to the finish line. You sprint.",
+  "Day 100. You did it. Now prove it wasn't a phase — start Day 1 again."
+];
 
-  function loadState() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-    } catch { return {}; }
+// ── Date helpers (timezone-safe) ───────────────────────────────────────────
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+}
+
+function msForDate(s) {
+  const [y, m, d] = s.split('-').map(Number);
+  return Date.UTC(y, m - 1, d);
+}
+
+function daysBetween(a, b) {
+  return Math.round((msForDate(b) - msForDate(a)) / 86400000);
+}
+
+function addDays(dateStr, n) {
+  const ms = msForDate(dateStr) + n * 86400000;
+  const d = new Date(ms);
+  return d.getUTCFullYear() + '-' +
+    String(d.getUTCMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getUTCDate()).padStart(2, '0');
+}
+
+function fmtDate(s) {
+  const [y, m, d] = s.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-GB', {
+    weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC'
+  });
+}
+
+// ── State ──────────────────────────────────────────────────────────────────
+function getStartDate() {
+  let d = store.get(STORE_START);
+  if (!d) { d = todayStr(); store.set(STORE_START, d); }
+  return d;
+}
+
+function loadState() {
+  try { return JSON.parse(store.get(STORE_STATE)) || {}; } catch(_) { return {}; }
+}
+
+function saveState(s) {
+  try { store.set(STORE_STATE, JSON.stringify(s)); } catch(_) {}
+}
+
+function isPerfect(d) { return d && TASKS.every(t => d[t.id]); }
+function doneCount(d) { return d ? TASKS.filter(t => d[t.id]).length : 0; }
+
+// ── Toggle task ────────────────────────────────────────────────────────────
+function toggleTask(dateStr, taskId) {
+  const state = loadState();
+  if (!state[dateStr]) state[dateStr] = {};
+  state[dateStr][taskId] = !state[dateStr][taskId];
+  saveState(state);
+  render();
+}
+
+function toggleCard(el) {
+  el.closest('.day-card').classList.toggle('open');
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function render() {
+  const state    = loadState();
+  const start    = getStartDate();
+  const today    = todayStr();
+  const todayIdx = Math.min(Math.max(daysBetween(start, today), 0), TOTAL - 1);
+
+  // Quote
+  const q = QUOTES[Math.min(todayIdx, QUOTES.length - 1)];
+  document.getElementById('qDayNum').textContent = todayIdx + 1;
+  document.getElementById('qText').textContent   = '“' + q + '”';
+  document.getElementById('qDate').textContent   = fmtDate(today);
+
+  // Stats
+  let perfect = 0, cur = 0, best = 0;
+  for (let i = 0; i <= todayIdx; i++) {
+    const p = isPerfect(state[addDays(start, i)]);
+    if (p) { perfect++; cur++; if (cur > best) best = cur; } else { cur = 0; }
+  }
+  // streak = current run ending yesterday if today not yet perfect
+  const todayDone = doneCount(state[today]);
+  if (!isPerfect(state[today])) { let s = 0; for (let i = 0; i < todayIdx; i++) { s = isPerfect(state[addDays(start, i)]) ? s + 1 : 0; } cur = s; }
+
+  document.getElementById('daysCompleted').textContent  = perfect;
+  document.getElementById('progressFill').style.width   = perfect + '%';
+  document.getElementById('streakVal').textContent      = cur;
+  document.getElementById('bestStreakVal').textContent  = best;
+  document.getElementById('todayCount').textContent     = todayDone + '/4';
+
+  const winMsg = document.getElementById('winMsg');
+  winMsg.style.display = todayDone === 4 ? 'block' : 'none';
+
+  // Cards
+  const grid = document.getElementById('daysGrid');
+  const openSet = new Set([...grid.querySelectorAll('.day-card.open')].map(c => c.dataset.idx));
+  grid.innerHTML = '';
+
+  for (let i = 0; i < TOTAL; i++) {
+    const dateStr  = addDays(start, i);
+    const isToday  = i === todayIdx;
+    const isFuture = i > todayIdx;
+    const dayData  = state[dateStr] || {};
+    const done     = doneCount(dayData);
+    const perf     = isPerfect(dayData);
+
+    let bClass, bText;
+    if (isFuture)        { bClass = 'b-future';  bText = 'Upcoming'; }
+    else if (isToday)    { bClass = 'b-today';   bText = done === 4 ? '🔥 Perfect' : done + '/4 done'; }
+    else if (perf)       { bClass = 'b-perfect'; bText = '✓ Perfect'; }
+    else if (done > 0)   { bClass = 'b-partial'; bText = done + '/4'; }
+    else                 { bClass = 'b-missed';  bText = 'Missed'; }
+
+    const shouldOpen = isToday || openSet.has(String(i));
+
+    const card = document.createElement('div');
+    card.className = ['day-card', isToday ? 'is-today' : '', perf && !isFuture ? 'is-perfect' : '', isFuture ? 'is-future' : '', shouldOpen ? 'open' : ''].filter(Boolean).join(' ');
+    card.dataset.idx = i;
+
+    // Header
+    const hdr = document.createElement('div');
+    hdr.className = 'day-header';
+    hdr.onclick = () => card.classList.toggle('open');
+    hdr.innerHTML =
+      '<span class="day-num">Day ' + (i + 1) + '</span>' +
+      '<span class="day-title">' + fmtDate(dateStr) + (isToday ? '<span class="today-pill">TODAY</span>' : '') + '</span>' +
+      '<span class="day-badge ' + bClass + '">' + bText + '</span>' +
+      '<span class="chevron">&#9660;</span>';
+
+    // Tasks wrapper
+    const wrap = document.createElement('div');
+    wrap.className = 'tasks-wrap';
+
+    // Quote strip
+    const qs = document.createElement('div');
+    qs.className = 'day-quote-strip';
+    const qp = document.createElement('p');
+    qp.textContent = '“' + QUOTES[Math.min(i, QUOTES.length - 1)] + '”';
+    qs.appendChild(qp);
+    wrap.appendChild(qs);
+
+    // Task rows
+    TASKS.forEach(function(task) {
+      const checked = !!dayData[task.id];
+      const row = document.createElement('div');
+      row.className = 'task-row' + (checked ? ' done' : '');
+
+      const icon = document.createElement('span');
+      icon.className = 'task-icon';
+      icon.textContent = task.icon;
+
+      const body = document.createElement('div');
+      body.className = 'task-body';
+      const nm = document.createElement('div');
+      nm.className = 'task-name';
+      nm.textContent = task.name;
+      const dc = document.createElement('div');
+      dc.className = 'task-desc';
+      dc.textContent = task.desc;
+      body.appendChild(nm);
+      body.appendChild(dc);
+
+      const btn = document.createElement('button');
+      btn.className = 'check-btn';
+      btn.textContent = checked ? '✓ Done' : 'Check off';
+      btn.onclick = (function(ds, tid) {
+        return function(e) { e.stopPropagation(); toggleTask(ds, tid); };
+      })(dateStr, task.id);
+
+      row.appendChild(icon);
+      row.appendChild(body);
+      row.appendChild(btn);
+      wrap.appendChild(row);
+    });
+
+    card.appendChild(hdr);
+    card.appendChild(wrap);
+    grid.appendChild(card);
   }
 
-  function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  // Scroll today's card into view on first render
+  const todayCard = grid.querySelector('.is-today');
+  if (todayCard && !grid.dataset.scrolled) {
+    grid.dataset.scrolled = '1';
+    setTimeout(function() { todayCard.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
   }
+}
 
-  function getStartDate() {
-    let d = localStorage.getItem(START_DATE_KEY);
-    if (!d) {
-      d = todayStr();
-      localStorage.setItem(START_DATE_KEY, d);
-    }
-    return d;
-  }
-
-  function todayStr() {
-    const d = new Date();
-    return d.getFullYear() + '-' +
-      String(d.getMonth() + 1).padStart(2, '0') + '-' +
-      String(d.getDate()).padStart(2, '0');
-  }
-
-  function parseDate(s) {
-    const [y, m, d] = s.split('-').map(Number);
-    return Date.UTC(y, m - 1, d);
-  }
-
-  function dayIndexForDate(startStr, dateStr) {
-    return Math.round((parseDate(dateStr) - parseDate(startStr)) / 86400000);
-  }
-
-  function dateForDayIndex(startStr, idx) {
-    const ms = parseDate(startStr) + idx * 86400000;
-    const d = new Date(ms);
-    return d.getUTCFullYear() + '-' +
-      String(d.getUTCMonth() + 1).padStart(2, '0') + '-' +
-      String(d.getUTCDate()).padStart(2, '0');
-  }
-
-  function formatDate(dateStr) {
-    const [y, m, d] = dateStr.split('-').map(Number);
-    return new Date(Date.UTC(y, m - 1, d))
-      .toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
-  }
-
-  // ── Rendering ──────────────────────────────────────────────────────────────
-
-  function isPerfect(dayData) {
-    return dayData && TASKS.every(t => dayData[t.id]);
-  }
-
-  function taskCount(dayData) {
-    if (!dayData) return 0;
-    return TASKS.filter(t => dayData[t.id]).length;
-  }
-
-  function computeStats(state, startDate, todayIdx) {
-    let perfectDays = 0;
-    let streak = 0;
-    let bestStreak = 0;
-    let cur = 0;
-
-    for (let i = 0; i < Math.min(todayIdx + 1, TOTAL_DAYS); i++) {
-      const dateStr = dateForDayIndex(startDate, i);
-      const perfect = isPerfect(state[dateStr]);
-      if (perfect) {
-        perfectDays++;
-        cur++;
-        if (cur > bestStreak) bestStreak = cur;
-      } else {
-        cur = 0;
-      }
-    }
-    streak = cur;
-
-    // streak is current run ending at today; if today isn't perfect yet keep streak from yesterday
-    const todayDate = dateForDayIndex(startDate, todayIdx);
-    if (!isPerfect(state[todayDate])) {
-      // recalc streak up to yesterday
-      let s = 0;
-      for (let i = 0; i < todayIdx; i++) {
-        const dateStr = dateForDayIndex(startDate, i);
-        if (isPerfect(state[dateStr])) { s++; } else { s = 0; }
-      }
-      streak = s;
-    }
-
-    return { perfectDays, streak, bestStreak };
-  }
-
-  function render() {
-    const state = loadState();
-    const startDate = getStartDate();
-    const today = todayStr();
-    const todayIdx = Math.min(dayIndexForDate(startDate, today), TOTAL_DAYS - 1);
-
-    const { perfectDays, streak, bestStreak } = computeStats(state, startDate, todayIdx);
-
-    // Render today's quote
-    const todayQuote = QUOTES[Math.min(todayIdx, QUOTES.length - 1)];
-    document.getElementById('qDayNum').textContent = todayIdx + 1;
-    document.getElementById('qText').textContent = '"' + todayQuote + '"';
-    document.getElementById('qDate').textContent = formatDate(dateForDayIndex(startDate, todayIdx));
-
-    document.getElementById('daysCompleted').textContent = perfectDays;
-    document.getElementById('progressFill').style.width = (perfectDays) + '%';
-    document.getElementById('streakVal').textContent = streak;
-    document.getElementById('bestStreakVal').textContent = bestStreak;
-
-    const todayDate = dateForDayIndex(startDate, todayIdx);
-    const todayCount = taskCount(state[todayDate]);
-    document.getElementById('tasksToday').textContent = todayCount + '/4';
-
-    const confetti = document.getElementById('confettiMsg');
-    confetti.style.display = (todayCount === 4) ? 'block' : 'none';
-
-    const grid = document.getElementById('daysGrid');
-    // preserve which cards are open
-    const openCards = new Set(
-      [...grid.querySelectorAll('.day-card.open')].map(el => el.dataset.day)
-    );
-
-    grid.innerHTML = '';
-
-    for (let i = 0; i < TOTAL_DAYS; i++) {
-      const dateStr = dateForDayIndex(startDate, i);
-      const isToday = dateStr === today && i === todayIdx;
-      const isFuture = i > todayIdx;
-      const dayData = state[dateStr] || {};
-      const done = taskCount(dayData);
-      const perfect = isPerfect(dayData);
-
-      let badgeClass, badgeText;
-      if (isFuture) {
-        badgeClass = 'badge-future'; badgeText = 'Upcoming';
-      } else if (isToday) {
-        badgeClass = 'badge-today'; badgeText = done === 4 ? '🔥 Perfect' : `${done}/4 done`;
-      } else if (perfect) {
-        badgeClass = 'badge-perfect'; badgeText = '✓ Perfect';
-      } else if (done > 0) {
-        badgeClass = 'badge-partial'; badgeText = `${done}/4`;
-      } else {
-        badgeClass = 'badge-missed'; badgeText = 'Missed';
-      }
-
-      const shouldOpen = isToday || openCards.has(String(i));
-
-      const card = document.createElement('div');
-      card.className = [
-        'day-card',
-        isToday ? 'today' : '',
-        perfect && !isFuture ? 'perfect' : '',
-        isFuture ? 'future' : '',
-        shouldOpen ? 'open' : ''
-      ].filter(Boolean).join(' ');
-      card.dataset.day = i;
-
-      card.innerHTML = `
-        <div class="day-header" onclick="toggleCard(this)">
-          <span class="day-number">Day ${i + 1}</span>
-          <span class="day-title">
-            ${formatDate(dateStr)}
-            ${isToday ? '<span class="today-label">TODAY</span>' : ''}
-          </span>
-          <span class="day-badge ${badgeClass}">${badgeText}</span>
-          <span class="chevron">▼</span>
-        </div>
-        <div class="tasks-list">
-          <div class="day-quote">
-            <div class="dq-text">"${QUOTES[Math.min(i, QUOTES.length - 1)]}"</div>
-          </div>
-          ${TASKS.map(task => {
-            const checked = !!dayData[task.id];
-            return `
-              <div class="task-item${checked ? ' done' : ''}"
-                   data-date="${dateStr}" data-task="${task.id}">
-                <span class="task-icon">${task.icon}</span>
-                <div class="task-body">
-                  <div class="task-name">${task.name}</div>
-                  <div class="task-desc">${task.desc}</div>
-                </div>
-                <button class="task-btn"
-                        onclick="event.stopPropagation(); toggleTask('${dateStr}','${task.id}')">
-                  ${checked ? '✓ Done' : 'Check off'}
-                </button>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `;
-
-      grid.appendChild(card);
-    }
-  }
-
-  // ── Interactions ───────────────────────────────────────────────────────────
-
-  function toggleCard(header) {
-    const card = header.closest('.day-card');
-    card.classList.toggle('open');
-  }
-
-  function toggleTask(dateStr, taskId) {
-    const state = loadState();
-    if (!state[dateStr]) state[dateStr] = {};
-    state[dateStr][taskId] = !state[dateStr][taskId];
-    saveState(state);
+// ── Reset ──────────────────────────────────────────────────────────────────
+document.getElementById('resetBtn').addEventListener('click', function() {
+  if (confirm('Reset ALL progress? This cannot be undone.')) {
+    store.del(STORE_STATE);
+    store.del(STORE_START);
     render();
   }
+});
 
-  function confirmReset() {
-    if (confirm('Reset ALL progress? This cannot be undone.')) {
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(START_DATE_KEY);
-      render();
-    }
-  }
-
-  // ── Init ───────────────────────────────────────────────────────────────────
-
-  render();
+// ── Boot ───────────────────────────────────────────────────────────────────
+render();
 </script>
-
 </body>
 </html>
