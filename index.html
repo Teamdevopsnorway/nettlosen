@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>100 Day Powerlist — Walter Cobb</title>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --card: #161616;
+      --border: #2a2a2a;
+      --accent: #f5a623;
+      --accent2: #e8451a;
+      --green: #22c55e;
+      --text: #f0f0f0;
+      --muted: #888;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      padding: 24px 16px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .brand {
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: clamp(24px, 5vw, 40px);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .goal-banner {
+      background: linear-gradient(135deg, #1a1000 0%, #1a0800 100%);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 20px auto;
+      max-width: 680px;
+      text-align: center;
+    }
+
+    .goal-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .goal-text {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .progress-section {
+      max-width: 680px;
+      margin: 0 auto 28px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .progress-label { font-size: 14px; color: var(--muted); }
+    .progress-count { font-size: 28px; font-weight: 800; color: var(--accent); }
+    .progress-sub { font-size: 13px; color: var(--muted); }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .streak-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .stat-pill {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      text-align: center;
+    }
+
+    .stat-pill .val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .stat-pill .lbl {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Day cards grid */
+    .days-grid {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .day-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .day-card.today { border-color: var(--accent); }
+    .day-card.perfect { border-color: var(--green); }
+    .day-card.future { opacity: 0.45; pointer-events: none; }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .day-number {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 48px;
+    }
+
+    .day-title {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .day-badge {
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-weight: 700;
+    }
+
+    .badge-perfect { background: #14532d; color: var(--green); }
+    .badge-partial { background: #2c1a00; color: var(--accent); }
+    .badge-missed  { background: #2a0a0a; color: #ef4444; }
+    .badge-today   { background: #1a0d00; color: var(--accent); border: 1px solid var(--accent); }
+    .badge-future  { background: var(--border); color: var(--muted); }
+
+    .chevron {
+      font-size: 12px;
+      color: var(--muted);
+      transition: transform 0.2s;
+    }
+
+    .day-card.open .chevron { transform: rotate(180deg); }
+
+    .tasks-list {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .day-card.open .tasks-list { display: block; }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .task-item:last-child { border-bottom: none; }
+
+    .task-check {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      margin-top: 1px;
+    }
+
+    .task-item.done .task-check {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .task-check-icon { display: none; font-size: 13px; }
+    .task-item.done .task-check-icon { display: block; }
+
+    .task-body { flex: 1; }
+    .task-name { font-size: 14px; font-weight: 600; }
+    .task-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .task-item.done .task-name { text-decoration: line-through; color: var(--muted); }
+
+    .task-icon { font-size: 18px; flex-shrink: 0; }
+
+    /* Today auto-open indicator */
+    .today-label {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+      font-weight: 800;
+    }
+
+    .reset-btn {
+      display: block;
+      margin: 40px auto 0;
+      background: none;
+      border: 1px solid #333;
+      color: var(--muted);
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+
+    .reset-btn:hover { border-color: #ef4444; color: #ef4444; }
+
+    .confetti-msg {
+      display: none;
+      text-align: center;
+      padding: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    @media (max-width: 480px) {
+      .streak-row { gap: 8px; }
+      .stat-pill { padding: 8px 10px; }
+      .stat-pill .val { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Walter Cobb</div>
+  <h1>100 Day Powerlist</h1>
+</header>
+
+<div class="goal-banner">
+  <div class="goal-label">Main Goal</div>
+  <div class="goal-text">Buy a House &amp; Provide for My Family</div>
+</div>
+
+<div class="progress-section">
+  <div class="progress-header">
+    <span class="progress-label">Overall Progress</span>
+    <span>
+      <span class="progress-count" id="daysCompleted">0</span>
+      <span class="progress-sub"> / 100 perfect days</span>
+    </span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="streak-row">
+    <div class="stat-pill">
+      <div class="val" id="streakVal">0</div>
+      <div class="lbl">Current Streak</div>
+    </div>
+    <div class="stat-pill">
+      <div class="val" id="bestStreakVal">0</div>
+      <div class="lbl">Best Streak</div>
+    </div>
+    <div class="stat-pill">
+      <div class="val" id="tasksToday">0/4</div>
+      <div class="lbl">Today's Tasks</div>
+    </div>
+  </div>
+</div>
+
+<div class="days-grid" id="daysGrid"></div>
+
+<div class="confetti-msg" id="confettiMsg">
+  All 4 tasks done today! Let's go! 🔥
+</div>
+
+<button class="reset-btn" onclick="confirmReset()">Reset All Progress</button>
+
+<script>
+  const STORAGE_KEY = 'powerlist_v1';
+  const START_DATE_KEY = 'powerlist_start';
+  const TOTAL_DAYS = 100;
+
+  const TASKS = [
+    {
+      id: 'video',
+      icon: '🎬',
+      name: 'Post 1 Video on Walter Cobb',
+      desc: 'Run through TJR prompt validation before posting'
+    },
+    {
+      id: 'train',
+      icon: '💪',
+      name: 'Train 45 Minutes',
+      desc: 'No excuses — 45 min minimum'
+    },
+    {
+      id: 'read',
+      icon: '📖',
+      name: 'Read 10 Pages',
+      desc: 'Financial book — knowledge builds wealth'
+    },
+    {
+      id: 'sleep',
+      icon: '🌙',
+      name: 'Bed 21:00 — Up 05:00',
+      desc: 'Protect your energy. 8 hours, every night'
+    }
+  ];
+
+  // ── State ──────────────────────────────────────────────────────────────────
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch { return {}; }
+  }
+
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function getStartDate() {
+    let d = localStorage.getItem(START_DATE_KEY);
+    if (!d) {
+      d = todayStr();
+      localStorage.setItem(START_DATE_KEY, d);
+    }
+    return d;
+  }
+
+  function todayStr() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function dayIndexForDate(startStr, dateStr) {
+    const start = new Date(startStr + 'T00:00:00');
+    const target = new Date(dateStr + 'T00:00:00');
+    return Math.round((target - start) / 86400000);
+  }
+
+  function dateForDayIndex(startStr, idx) {
+    const d = new Date(startStr + 'T00:00:00');
+    d.setDate(d.getDate() + idx);
+    return d.toISOString().slice(0, 10);
+  }
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+  }
+
+  // ── Rendering ──────────────────────────────────────────────────────────────
+
+  function isPerfect(dayData) {
+    return dayData && TASKS.every(t => dayData[t.id]);
+  }
+
+  function taskCount(dayData) {
+    if (!dayData) return 0;
+    return TASKS.filter(t => dayData[t.id]).length;
+  }
+
+  function computeStats(state, startDate, todayIdx) {
+    let perfectDays = 0;
+    let streak = 0;
+    let bestStreak = 0;
+    let cur = 0;
+
+    for (let i = 0; i < Math.min(todayIdx + 1, TOTAL_DAYS); i++) {
+      const dateStr = dateForDayIndex(startDate, i);
+      const perfect = isPerfect(state[dateStr]);
+      if (perfect) {
+        perfectDays++;
+        cur++;
+        if (cur > bestStreak) bestStreak = cur;
+      } else {
+        cur = 0;
+      }
+    }
+    streak = cur;
+
+    // streak is current run ending at today; if today isn't perfect yet keep streak from yesterday
+    const todayDate = dateForDayIndex(startDate, todayIdx);
+    if (!isPerfect(state[todayDate])) {
+      // recalc streak up to yesterday
+      let s = 0;
+      for (let i = 0; i < todayIdx; i++) {
+        const dateStr = dateForDayIndex(startDate, i);
+        if (isPerfect(state[dateStr])) { s++; } else { s = 0; }
+      }
+      streak = s;
+    }
+
+    return { perfectDays, streak, bestStreak };
+  }
+
+  function render() {
+    const state = loadState();
+    const startDate = getStartDate();
+    const today = todayStr();
+    const todayIdx = Math.min(dayIndexForDate(startDate, today), TOTAL_DAYS - 1);
+
+    const { perfectDays, streak, bestStreak } = computeStats(state, startDate, todayIdx);
+
+    document.getElementById('daysCompleted').textContent = perfectDays;
+    document.getElementById('progressFill').style.width = (perfectDays) + '%';
+    document.getElementById('streakVal').textContent = streak;
+    document.getElementById('bestStreakVal').textContent = bestStreak;
+
+    const todayDate = dateForDayIndex(startDate, todayIdx);
+    const todayCount = taskCount(state[todayDate]);
+    document.getElementById('tasksToday').textContent = todayCount + '/4';
+
+    const confetti = document.getElementById('confettiMsg');
+    confetti.style.display = (todayCount === 4) ? 'block' : 'none';
+
+    const grid = document.getElementById('daysGrid');
+    // preserve which cards are open
+    const openCards = new Set(
+      [...grid.querySelectorAll('.day-card.open')].map(el => el.dataset.day)
+    );
+
+    grid.innerHTML = '';
+
+    for (let i = 0; i < TOTAL_DAYS; i++) {
+      const dateStr = dateForDayIndex(startDate, i);
+      const isToday = dateStr === today && i === todayIdx;
+      const isFuture = i > todayIdx;
+      const dayData = state[dateStr] || {};
+      const done = taskCount(dayData);
+      const perfect = isPerfect(dayData);
+
+      let badgeClass, badgeText;
+      if (isFuture) {
+        badgeClass = 'badge-future'; badgeText = 'Upcoming';
+      } else if (isToday) {
+        badgeClass = 'badge-today'; badgeText = done === 4 ? '🔥 Perfect' : `${done}/4 done`;
+      } else if (perfect) {
+        badgeClass = 'badge-perfect'; badgeText = '✓ Perfect';
+      } else if (done > 0) {
+        badgeClass = 'badge-partial'; badgeText = `${done}/4`;
+      } else {
+        badgeClass = 'badge-missed'; badgeText = 'Missed';
+      }
+
+      const shouldOpen = isToday || openCards.has(String(i));
+
+      const card = document.createElement('div');
+      card.className = [
+        'day-card',
+        isToday ? 'today' : '',
+        perfect && !isFuture ? 'perfect' : '',
+        isFuture ? 'future' : '',
+        shouldOpen ? 'open' : ''
+      ].filter(Boolean).join(' ');
+      card.dataset.day = i;
+
+      card.innerHTML = `
+        <div class="day-header" onclick="toggleCard(this)">
+          <span class="day-number">Day ${i + 1}</span>
+          <span class="day-title">
+            ${formatDate(dateStr)}
+            ${isToday ? '<span class="today-label">TODAY</span>' : ''}
+          </span>
+          <span class="day-badge ${badgeClass}">${badgeText}</span>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="tasks-list">
+          ${TASKS.map(task => {
+            const checked = !!dayData[task.id];
+            return `
+              <div class="task-item${checked ? ' done' : ''}"
+                   onclick="toggleTask('${dateStr}','${task.id}',this)"
+                   data-date="${dateStr}" data-task="${task.id}">
+                <span class="task-icon">${task.icon}</span>
+                <div class="task-body">
+                  <div class="task-name">${task.name}</div>
+                  <div class="task-desc">${task.desc}</div>
+                </div>
+                <div class="task-check">
+                  <span class="task-check-icon">✓</span>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      grid.appendChild(card);
+    }
+  }
+
+  // ── Interactions ───────────────────────────────────────────────────────────
+
+  function toggleCard(header) {
+    const card = header.closest('.day-card');
+    card.classList.toggle('open');
+  }
+
+  function toggleTask(dateStr, taskId, itemEl) {
+    const state = loadState();
+    if (!state[dateStr]) state[dateStr] = {};
+    state[dateStr][taskId] = !state[dateStr][taskId];
+    saveState(state);
+    render();
+  }
+
+  function confirmReset() {
+    if (confirm('Reset ALL progress? This cannot be undone.')) {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(START_DATE_KEY);
+      render();
+    }
+  }
+
+  // ── Init ───────────────────────────────────────────────────────────────────
+
+  render();
+</script>
+
+</body>
+</html>
