@@ -212,32 +212,32 @@
 
     .task-item:last-child { border-bottom: none; }
 
-    .task-check {
-      width: 28px;
-      height: 28px;
-      border: 2px solid #666;
-      border-radius: 8px;
+    .task-btn {
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 2px solid #555;
+      background: #222;
+      color: #ccc;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
       transition: all 0.15s;
-      margin-top: 1px;
-      background: #1e1e1e;
+      letter-spacing: 0.5px;
     }
 
-    .task-item:hover .task-check {
+    .task-btn:hover {
       border-color: var(--accent);
+      color: var(--accent);
       background: #261a00;
     }
 
-    .task-item.done .task-check {
+    .task-item.done .task-btn {
       background: var(--green);
       border-color: var(--green);
+      color: #000;
     }
-
-    .task-check-icon { display: none; font-size: 15px; color: #000; font-weight: 900; }
-    .task-item.done .task-check-icon { display: block; }
 
     .task-body { flex: 1; }
     .task-name { font-size: 14px; font-weight: 600; }
@@ -553,24 +553,33 @@
   }
 
   function todayStr() {
-    return new Date().toISOString().slice(0, 10);
+    const d = new Date();
+    return d.getFullYear() + '-' +
+      String(d.getMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getDate()).padStart(2, '0');
+  }
+
+  function parseDate(s) {
+    const [y, m, d] = s.split('-').map(Number);
+    return Date.UTC(y, m - 1, d);
   }
 
   function dayIndexForDate(startStr, dateStr) {
-    const start = new Date(startStr + 'T00:00:00');
-    const target = new Date(dateStr + 'T00:00:00');
-    return Math.round((target - start) / 86400000);
+    return Math.round((parseDate(dateStr) - parseDate(startStr)) / 86400000);
   }
 
   function dateForDayIndex(startStr, idx) {
-    const d = new Date(startStr + 'T00:00:00');
-    d.setDate(d.getDate() + idx);
-    return d.toISOString().slice(0, 10);
+    const ms = parseDate(startStr) + idx * 86400000;
+    const d = new Date(ms);
+    return d.getUTCFullYear() + '-' +
+      String(d.getUTCMonth() + 1).padStart(2, '0') + '-' +
+      String(d.getUTCDate()).padStart(2, '0');
   }
 
   function formatDate(dateStr) {
-    const d = new Date(dateStr + 'T00:00:00');
-    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return new Date(Date.UTC(y, m - 1, d))
+      .toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
   }
 
   // ── Rendering ──────────────────────────────────────────────────────────────
@@ -703,16 +712,16 @@
             const checked = !!dayData[task.id];
             return `
               <div class="task-item${checked ? ' done' : ''}"
-                   onclick="toggleTask('${dateStr}','${task.id}',this)"
                    data-date="${dateStr}" data-task="${task.id}">
                 <span class="task-icon">${task.icon}</span>
                 <div class="task-body">
                   <div class="task-name">${task.name}</div>
                   <div class="task-desc">${task.desc}</div>
                 </div>
-                <div class="task-check">
-                  <span class="task-check-icon">✓</span>
-                </div>
+                <button class="task-btn"
+                        onclick="event.stopPropagation(); toggleTask('${dateStr}','${task.id}')">
+                  ${checked ? '✓ Done' : 'Check off'}
+                </button>
               </div>
             `;
           }).join('')}
@@ -730,7 +739,7 @@
     card.classList.toggle('open');
   }
 
-  function toggleTask(dateStr, taskId, itemEl) {
+  function toggleTask(dateStr, taskId) {
     const state = loadState();
     if (!state[dateStr]) state[dateStr] = {};
     state[dateStr][taskId] = !state[dateStr][taskId];
