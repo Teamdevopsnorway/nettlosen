@@ -198,7 +198,7 @@
   <div class="pills">
     <div class="pill"><div class="v" id="sStreak">0</div><div class="l">Streak</div></div>
     <div class="pill"><div class="v" id="sBest">0</div><div class="l">Best</div></div>
-    <div class="pill"><div class="v" id="sToday">0/4</div><div class="l">Today</div></div>
+    <div class="pill"><div class="v" id="sToday">0/8</div><div class="l">Today</div></div>
   </div>
 </div>
 
@@ -207,9 +207,9 @@
 <div class="today-card" id="todayCard">
   <div class="today-card-hdr">
     <span class="date" id="todayDate">—</span>
-    <span class="badge" id="todayBadge">0/4 done</span>
+    <span class="badge" id="todayBadge">0/8 done</span>
   </div>
-  <div class="win-banner" id="winBanner">All 4 done today. Let's go! 🔥</div>
+  <div class="win-banner" id="winBanner">All 8 done today. LOCKED IN. 🔥</div>
   <div id="todayTasks"></div>
 </div>
 
@@ -237,10 +237,14 @@ var store = {
 var SK = 'pl3_state', SD = 'pl3_start', TOTAL = 100;
 
 var TASKS = [
-  { id:'video', ico:'🎬', name:'Post 1 Video on Walter Cobb',  desc:'Run through TJR prompt validation first' },
-  { id:'train', ico:'💪', name:'Train 45 Minutes',              desc:'No excuses — 45 min minimum' },
-  { id:'read',  ico:'📖', name:'Read 10 Pages',                 desc:'Financial book — knowledge builds wealth' },
-  { id:'sleep', ico:'🌙', name:'Bed 21:00 — Up 05:00',          desc:'Protect your energy. 8 hours every night' }
+  { id:'video',    ico:'🎬', name:'Post 1 Video on Walter Cobb',       desc:'Run through TJR prompt validation first' },
+  { id:'train1',   ico:'💪', name:'Workout 1 — 45 Min (Indoor)',        desc:'No excuses — 45 min minimum' },
+  { id:'train2',   ico:'🏃', name:'Workout 2 — 45 Min (Outdoor)',       desc:'75 Hard rule: must be outside, no exceptions' },
+  { id:'water',    ico:'💧', name:'Drink 1 Gallon of Water',            desc:'75 Hard: ~3.8 litres. Track it. No shortcuts.' },
+  { id:'diet',     ico:'🥗', name:'Follow Diet — No Cheat Meals',       desc:'75 Hard: stick to your diet. No alcohol either.' },
+  { id:'photo',    ico:'📸', name:'Take Progress Photo',                desc:'75 Hard: daily photo, no skipping. Document the change.' },
+  { id:'read',     ico:'📖', name:'Read 10 Pages',                      desc:'Non-fiction / financial book — knowledge builds wealth' },
+  { id:'sleep',    ico:'🌙', name:'Bed 21:00 — Up 05:00',               desc:'Protect your energy. 8 hours every night' }
 ];
 
 var QUOTES = [
@@ -419,12 +423,13 @@ function render(){
   document.getElementById('sBar').style.width     = perfect+'%';
   document.getElementById('sStreak').textContent  = cur;
   document.getElementById('sBest').textContent    = best;
-  document.getElementById('sToday').textContent   = todayDone+'/4';
+  document.getElementById('sToday').textContent   = todayDone+'/'+TASKS.length;
 
   // Today card
   document.getElementById('todayDate').textContent  = 'Day '+(idx+1)+' — '+fmtDate(td);
-  document.getElementById('todayBadge').textContent = todayDone===4?'🔥 Perfect!':todayDone+'/4 done';
-  document.getElementById('winBanner').style.display = todayDone===4?'block':'none';
+  var total=TASKS.length;
+  document.getElementById('todayBadge').textContent = todayDone===total?'🔥 Perfect!':todayDone+'/'+total+' done';
+  document.getElementById('winBanner').style.display = todayDone===total?'block':'none';
 
   var tasksCont = document.getElementById('todayTasks');
   tasksCont.innerHTML = '';
@@ -463,7 +468,7 @@ function render(){
     hc.className = 'hist-card'+(perf?' perf':'');
 
     var bClass = perf?'hb-perf': dn>0?'hb-part':'hb-miss';
-    var bText  = perf?'✓ Perfect': dn>0?dn+'/4':'Missed';
+    var bText  = perf?'✓ Perfect': dn>0?dn+'/'+TASKS.length:'Missed';
 
     var hh = document.createElement('div'); hh.className='hist-hdr';
     hh.innerHTML = '<span class="dn">Day '+(i+1)+'</span>'+
